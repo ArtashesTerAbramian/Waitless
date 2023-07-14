@@ -10,8 +10,6 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog;
-using Waitless.BLL.Validators.CoffeeValidator;
-using Waitless.BLL.Validators;
 using Waitless.BLL.Validators.UserValidators;
 using SixLabors.ImageSharp.Web.DependencyInjection;
 using InnLine.BLL.Helpers;

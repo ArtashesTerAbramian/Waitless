@@ -1,6 +1,7 @@
 ﻿using Waitless.DAL.Enums;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Waitless.DAL.Models;
 
@@ -27,6 +28,7 @@ public class Order : BaseEntity
     private decimal _total;
     
     // todo to be changed (adding orderId column to coffe table)
+    [NotMapped]
     public ICollection<long> CoffeeIds { get; set; }
 
     User User { get; set; }

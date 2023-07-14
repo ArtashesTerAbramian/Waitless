@@ -1,5 +1,5 @@
 ﻿using Waitless.DAL.Models;
-using Waitless.DTO.CoffeeDtos;
+using Waitless.DTO.BeverageDtos;
 using Riok.Mapperly.Abstractions;
 
 namespace Waitless.BLL.Mappers;

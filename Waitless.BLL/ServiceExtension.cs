@@ -1,15 +1,15 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Waitless.BLL.Services.ErrorService;
-using Waitless.BLL.Services.CoffeeCategoryService;
 using Waitless.DAL;
 using Waitless.BLL.Middlewares;
 using Waitless.BLL.Services.ContextModificatorService;
 using Waitless.BLL.Services.LanguageService;
-using Waitless.BLL.Services.CoffeeService;
 using Waitless.BLL.Helpers;
 using Waitless.BLL.Models;
 using Waitless.BLL.Services.AddressService;
+using Waitless.BLL.Services.BeverageService;
+using Waitless.BLL.Services.BeverageTypeService;
 using Waitless.BLL.Services.CityService;
 using Waitless.BLL.Services.UserService;
 using Waitless.BLL.Services.ProvinceService;
@@ -29,8 +29,8 @@ public static class ServiceExtension
         services.AddScoped<ILanguageService, LanguageService>();
 
         services.AddScoped<IErrorService, ErrorService>();
-        services.AddScoped<ICoffeeTypeService, CoffeeTypeService>();
-        services.AddScoped<ICoffeeService, CoffeeService>();
+        services.AddScoped<IBeverageTypeService, BeverageTypeService>();
+        services.AddScoped<IBeverageService, BeverageService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IUserSessionService, UserSessionService>();
         services.AddScoped<IProvinceService, ProvinceService>();

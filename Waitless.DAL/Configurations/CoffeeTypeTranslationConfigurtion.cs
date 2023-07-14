@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Waitless.DAL.Configurations;
 
-public class CoffeeTypeTranslationConfigurtion : BaseConfiguration<CoffeeTypeTranslation>
+public class CoffeeTypeTranslationConfigurtion : BaseConfiguration<BeverageTypeTranslation>
 {
-    public override void Configure(EntityTypeBuilder<CoffeeTypeTranslation> builder)
+    public override void Configure(EntityTypeBuilder<BeverageTypeTranslation> builder)
     {
         base.Configure(builder);
 
@@ -16,6 +16,6 @@ public class CoffeeTypeTranslationConfigurtion : BaseConfiguration<CoffeeTypeTra
             .HasMaxLength(256)
             .IsRequired();
 
-        builder.HasIndex(x => new { x.CoffeeTypeId, x.LanguageId });
+        builder.HasIndex(x => new { x.BeverageTypeId, x.LanguageId });
     }
 }

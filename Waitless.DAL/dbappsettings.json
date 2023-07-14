@@ -8,7 +8,7 @@
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "Waitless": "Host=127.0.0.1;Port=5432;Username=postgres;Password=artash;Database=my_db;Pooling=true;Maximum Pool Size=1000;Timeout=300;CommandTimeout=300;"
+    "Waitless": "Host=127.0.0.1;Port=5432;Username=postgres;Password=artash;Database=waitless_db;Pooling=true;Maximum Pool Size=1000;Timeout=300;CommandTimeout=300;"
   }
 }
 

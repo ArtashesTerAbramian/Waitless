@@ -14,5 +14,5 @@ public class OrderDto : BaseEntity
     public bool IsReady { get; set; }
     public decimal TotalPrice{ get; set; }
 
-    public ObservableCollection<Coffee> Coffees { get; set; }
+    public ObservableCollection<Beverage> Beverages { get; set; }
 }

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Waitless.DAL.Configurations;
 
-public class CoffeePhotosConfiguration : BaseConfiguration<CoffeePhoto>
+public class CoffeePhotosConfiguration : BaseConfiguration<BeveragePhoto>
 {
-    public override void Configure(EntityTypeBuilder<CoffeePhoto> builder)
+    public override void Configure(EntityTypeBuilder<BeveragePhoto> builder)
     {
         base.Configure(builder);
 

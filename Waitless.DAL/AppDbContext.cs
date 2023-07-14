@@ -20,10 +20,10 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Error> Errors { get; set; }
-    public DbSet<CoffeeType> CoffeeTypes { get; set; }
-    public DbSet<Coffee> Coffee { get; set; }
-    public DbSet<CoffeeTranslation> CoffeeTranslations { get; set; }
-    public DbSet<CoffeePhoto> CoffeePhotos { get; set; }
+    public DbSet<BeverageType> CoffeeTypes { get; set; }
+    public DbSet<Beverage> Beverage { get; set; }
+    public DbSet<BeverageTranslation> BeverageTranslations { get; set; }
+    public DbSet<BeveragePhoto> CoffeePhotos { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<UserSession> UserSessions { get; set; }
     public DbSet<Address> Addresses { get; set; }
