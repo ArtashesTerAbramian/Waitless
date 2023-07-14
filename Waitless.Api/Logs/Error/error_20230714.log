@@ -1,0 +1,46 @@
+2023-07-14 17:54:41.758 +04:00 [WRN] Overriding address(es) 'http://localhost:5254'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2023-07-14 17:57:00.343 +04:00 [WRN] Overriding address(es) 'http://localhost:5254'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2023-07-14 17:57:18.096 +04:00 [DBG] AuthenticationScheme: UserAuth was not authenticated.
+2023-07-14 17:57:18.855 +04:00 [INF] HTTP POST /api/user/add responded 400 in 793.0162 ms
+2023-07-14 17:57:33.367 +04:00 [DBG] AuthenticationScheme: UserAuth was not authenticated.
+2023-07-14 17:57:34.604 +04:00 [INF] HTTP POST /api/user/add responded 200 in 1256.2738 ms
+2023-07-14 18:00:30.507 +04:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='300']
+INSERT INTO users (id, created_date, email, is_deleted, modify_date, password_hash, phone, user_name)
+VALUES (1, TIMESTAMPTZ '-infinity', 'admin@mail.com', FALSE, NULL, 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', '32423', 'admin');
+2023-07-14 18:00:30.867 +04:00 [ERR] Stopped program because of execution
+Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "ix_users_user_name"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.<ReadMessage>g__ReadMessageLong|215_0(NpgsqlConnector connector, Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(CommandBehavior behavior, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(CommandBehavior behavior, Boolean async, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteNonQuery(Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQueryAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQueryAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQueryAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQueryAsync(IEnumerable`1 migrationCommands, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQueryAsync(IEnumerable`1 migrationCommands, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQueryAsync(IEnumerable`1 migrationCommands, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.MigrationCommandExecutor.ExecuteNonQueryAsync(IEnumerable`1 migrationCommands, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Migrations.Internal.Migrator.MigrateAsync(String targetMigration, CancellationToken cancellationToken)
+   at Waitless.BLL.Helpers.MigrationHelper.DatabaseMigrate(WebApplication app) in C:\Users\artas\source\repos\Waitless\Waitless.BLL\Helpers\MigrationHelper.cs:line 14
+   at Waitless.BLL.Helpers.MigrationHelper.DatabaseMigrate(WebApplication app) in C:\Users\artas\source\repos\Waitless\Waitless.BLL\Helpers\MigrationHelper.cs:line 14
+   at Program.<Main>$(String[] args) in C:\Users\artas\source\repos\Waitless\Waitless.Api\Program.cs:line 97
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "ix_users_user_name"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: users
+    ConstraintName: ix_users_user_name
+    File: nbtinsert.c
+    Line: 671
+    Routine: _bt_check_unique
+2023-07-14 18:00:53.010 +04:00 [WRN] Overriding address(es) 'http://localhost:5254'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2023-07-14 18:01:17.187 +04:00 [DBG] AuthenticationScheme: UserAuth was not authenticated.
+2023-07-14 18:01:18.040 +04:00 [INF] HTTP POST /api/usersession/login responded 200 in 864.6037 ms
+2023-07-14 18:01:37.987 +04:00 [DBG] AuthenticationScheme: UserAuth was successfully authenticated.
+2023-07-14 18:01:38.084 +04:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2023-07-14 18:01:38.204 +04:00 [INF] HTTP GET /api/city/get-all responded 200 in 319.5666 ms

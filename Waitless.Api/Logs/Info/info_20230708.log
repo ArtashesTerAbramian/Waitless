@@ -1,0 +1,51 @@
+2023-07-08 12:59:50.380 +04:00 [WRN] Overriding address(es) 'http://localhost:5254'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2023-07-08 12:59:59.846 +04:00 [DBG] AuthenticationScheme: UserAuth was not authenticated.
+2023-07-08 12:59:59.869 +04:00 [INF] AuthenticationScheme: UserAuth was challenged.
+2023-07-08 12:59:59.879 +04:00 [INF] HTTP GET /api/province/get-all responded 401 in 69.2814 ms
+2023-07-08 13:00:17.749 +04:00 [DBG] AuthenticationScheme: UserAuth was not authenticated.
+2023-07-08 13:00:28.603 +04:00 [INF] HTTP POST /api/usersession/login responded 200 in 10891.6898 ms
+2023-07-08 13:00:49.279 +04:00 [DBG] AuthenticationScheme: UserAuth was not authenticated.
+2023-07-08 13:00:49.359 +04:00 [INF] HTTP POST /api/user/add responded 400 in 81.9773 ms
+2023-07-08 13:01:20.021 +04:00 [DBG] AuthenticationScheme: UserAuth was not authenticated.
+2023-07-08 13:01:20.299 +04:00 [INF] HTTP POST /api/user/add responded 200 in 281.4310 ms
+2023-07-08 13:01:32.769 +04:00 [DBG] AuthenticationScheme: UserAuth was not authenticated.
+2023-07-08 13:01:32.833 +04:00 [INF] HTTP POST /api/usersession/login responded 200 in 63.5160 ms
+2023-07-08 13:01:48.160 +04:00 [DBG] AuthenticationScheme: UserAuth was successfully authenticated.
+2023-07-08 13:01:48.281 +04:00 [INF] HTTP GET /api/province/get-all responded 200 in 198.5907 ms
+2023-07-08 13:15:15.528 +04:00 [WRN] Overriding address(es) 'http://localhost:5254'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2023-07-08 13:15:23.015 +04:00 [DBG] AuthenticationScheme: UserAuth was not authenticated.
+2023-07-08 13:15:23.032 +04:00 [INF] AuthenticationScheme: UserAuth was challenged.
+2023-07-08 13:15:23.038 +04:00 [INF] HTTP GET /api/city/get-all responded 401 in 38.7949 ms
+2023-07-08 13:15:38.166 +04:00 [DBG] AuthenticationScheme: UserAuth was not authenticated.
+2023-07-08 13:15:39.808 +04:00 [INF] HTTP POST /api/usersession/login responded 200 in 1657.9403 ms
+2023-07-08 13:15:54.434 +04:00 [DBG] AuthenticationScheme: UserAuth was successfully authenticated.
+2023-07-08 13:16:36.943 +04:00 [WRN] Overriding address(es) 'http://localhost:5254'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2023-07-08 13:16:37.837 +04:00 [DBG] AuthenticationScheme: UserAuth was successfully authenticated.
+2023-07-08 13:16:38.239 +04:00 [INF] HTTP GET /api/city/get-all responded 200 in 1104.0385 ms
+2023-07-08 13:19:18.752 +04:00 [WRN] Overriding address(es) 'http://localhost:5254'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2023-07-08 13:19:24.570 +04:00 [DBG] AuthenticationScheme: UserAuth was successfully authenticated.
+2023-07-08 13:19:24.900 +04:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2023-07-08 13:19:34.635 +04:00 [INF] HTTP GET /api/city/get-all responded 200 in 11281.9222 ms
+2023-07-08 13:20:15.687 +04:00 [WRN] Overriding address(es) 'http://localhost:5254'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2023-07-08 13:20:21.116 +04:00 [DBG] AuthenticationScheme: UserAuth was successfully authenticated.
+2023-07-08 13:20:21.304 +04:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2023-07-08 13:20:21.573 +04:00 [INF] HTTP GET /api/city/get-all responded 200 in 1036.9399 ms
+2023-07-08 13:21:00.699 +04:00 [WRN] Overriding address(es) 'http://localhost:5254'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2023-07-08 13:21:07.879 +04:00 [DBG] AuthenticationScheme: UserAuth was successfully authenticated.
+2023-07-08 13:21:08.218 +04:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2023-07-08 13:21:08.783 +04:00 [INF] HTTP GET /api/city/get-all responded 200 in 2182.8495 ms
+2023-07-08 13:21:27.572 +04:00 [DBG] AuthenticationScheme: UserAuth was successfully authenticated.
+2023-07-08 13:21:27.596 +04:00 [INF] HTTP GET /api/city/get-all responded 200 in 97.0807 ms
+2023-07-08 13:21:36.469 +04:00 [DBG] AuthenticationScheme: UserAuth was successfully authenticated.
+2023-07-08 13:21:36.531 +04:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2023-07-08 13:21:36.568 +04:00 [INF] HTTP GET /api/city/get-all responded 200 in 121.8950 ms
+2023-07-08 13:21:48.949 +04:00 [DBG] AuthenticationScheme: UserAuth was successfully authenticated.
+2023-07-08 13:21:48.967 +04:00 [INF] HTTP GET /api/city/get-all responded 200 in 28.3870 ms
+2023-07-08 17:15:35.619 +04:00 [WRN] Overriding address(es) 'http://localhost:5254'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2023-07-08 17:15:53.901 +04:00 [DBG] AuthenticationScheme: UserAuth was not authenticated.
+2023-07-08 17:15:56.099 +04:00 [INF] HTTP POST /api/usersession/login responded 200 in 2227.5774 ms
+2023-07-08 17:16:15.251 +04:00 [DBG] AuthenticationScheme: UserAuth was successfully authenticated.
+2023-07-08 17:16:15.583 +04:00 [INF] HTTP GET /api/address/get-all responded 200 in 609.4375 ms
+2023-07-08 17:39:04.295 +04:00 [WRN] Overriding address(es) 'http://localhost:5254'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2023-07-08 17:39:08.606 +04:00 [DBG] AuthenticationScheme: UserAuth was successfully authenticated.
+2023-07-08 17:39:09.427 +04:00 [INF] HTTP GET /api/coffeetype/get-all responded 200 in 2063.5185 ms
