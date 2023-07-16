@@ -365,3 +365,7 @@ FodyWeavers.xsd
 #rider
 rider.*
 .idea/
+Waitless.Api/obj/
+Waitless.DAL/obj/
+Waitless.DTO/obj/
+Waitless.BLL/obj/
