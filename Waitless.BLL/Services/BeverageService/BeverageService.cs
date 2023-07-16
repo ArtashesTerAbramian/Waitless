@@ -29,7 +29,7 @@ public class BeverageService : IBeverageService
 
         var coffee = new Beverage()
         {
-            BeverageTypeId = dto.BeverageTypeId ?? null,
+            // CoffeeTypeId = dto.BeverageTypeId ?? null,
             BeverageSizeId = dto.BeverageSizeId ?? null,
             Price = dto.Price,
             Translations = dto.Translations.Select(x => new BeverageTranslation()
@@ -138,7 +138,7 @@ public class BeverageService : IBeverageService
             return Result.NotFound();
         }
 
-        coffee.BeverageTypeId = dto.CoffeeTypeId;
+        // coffee.CoffeeTypeId = dto.CoffeeTypeId;
         coffee.Price = dto.Price;
 
         if (dto.Translations != null && dto.Translations.Any())

@@ -10,7 +10,7 @@ public class BeverageTranslationConfiguration : BaseConfiguration<BeverageTransl
     {
         base.Configure(builder);
 
-        builder.ToTable("coffee_translation");
+        builder.ToTable("beverage_translation");
 
         builder.Property(x => x.Name)
             .HasMaxLength(256)

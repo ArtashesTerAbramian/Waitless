@@ -10,11 +10,11 @@ public class BeverageConfiguration : BaseConfiguration<Beverage>
     {
         base.Configure(builder);
 
-        builder.ToTable("coffee");
+        builder.ToTable("beverage");
 
         builder.Property(c => c.Price)
-           .HasColumnType("decimal(18,2)");
+            .HasColumnType("decimal(18,2)");
 
-        builder.HasIndex(x => new { CoffeeTypeId = x.BeverageTypeId, x.BeverageSizeId });
+        builder.HasIndex(x => x.BeverageSizeId);
     }
 }

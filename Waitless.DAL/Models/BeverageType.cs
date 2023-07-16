@@ -1,5 +1,3 @@
-﻿using Waitless.DAL.Enums;
-
 namespace Waitless.DAL.Models;
 
 public class BeverageType : BaseEntity
@@ -8,5 +6,6 @@ public class BeverageType : BaseEntity
     {
         Translations = new HashSet<BeverageTypeTranslation>();
     }
+    
     public ICollection<BeverageTypeTranslation> Translations { get; set; }
 }

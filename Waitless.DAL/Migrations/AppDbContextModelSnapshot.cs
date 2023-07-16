@@ -151,21 +151,21 @@ namespace Waitless.DAL.Migrations
                         .HasColumnName("price");
 
                     b.HasKey("Id")
-                        .HasName("pk_coffee");
+                        .HasName("pk_beverage");
 
                     b.HasIndex("BeverageSizeId")
-                        .HasDatabaseName("ix_coffee_beverage_size_id");
+                        .HasDatabaseName("ix_beverage_beverage_size_id");
+
+                    b.HasIndex("BeverageTypeId")
+                        .HasDatabaseName("ix_beverage_beverage_type_id");
 
                     b.HasIndex("CreatedDate")
-                        .HasDatabaseName("ix_coffee_created_date");
+                        .HasDatabaseName("ix_beverage_created_date");
 
                     b.HasIndex("IsDeleted")
-                        .HasDatabaseName("ix_coffee_is_deleted");
+                        .HasDatabaseName("ix_beverage_is_deleted");
 
-                    b.HasIndex("BeverageTypeId", "BeverageSizeId")
-                        .HasDatabaseName("ix_coffee_beverage_type_id_beverage_size_id");
-
-                    b.ToTable("coffee", (string)null);
+                    b.ToTable("beverage", (string)null);
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.BeveragePhoto", b =>
@@ -200,18 +200,18 @@ namespace Waitless.DAL.Migrations
                         .HasColumnName("modify_date");
 
                     b.HasKey("Id")
-                        .HasName("pk_coffee_photo");
+                        .HasName("pk_beverage_photo");
 
                     b.HasIndex("BeverageId")
-                        .HasDatabaseName("ix_coffee_photo_beverage_id");
+                        .HasDatabaseName("ix_beverage_photo_beverage_id");
 
                     b.HasIndex("CreatedDate")
-                        .HasDatabaseName("ix_coffee_photo_created_date");
+                        .HasDatabaseName("ix_beverage_photo_created_date");
 
                     b.HasIndex("IsDeleted")
-                        .HasDatabaseName("ix_coffee_photo_is_deleted");
+                        .HasDatabaseName("ix_beverage_photo_is_deleted");
 
-                    b.ToTable("coffee_photo", (string)null);
+                    b.ToTable("beverage_photo", (string)null);
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.BeverageSize", b =>
@@ -240,15 +240,15 @@ namespace Waitless.DAL.Migrations
                         .HasColumnName("size_enum");
 
                     b.HasKey("Id")
-                        .HasName("pk_coffee_size");
+                        .HasName("pk_beverage_size");
 
                     b.HasIndex("CreatedDate")
-                        .HasDatabaseName("ix_coffee_size_created_date");
+                        .HasDatabaseName("ix_beverage_size_created_date");
 
                     b.HasIndex("IsDeleted")
-                        .HasDatabaseName("ix_coffee_size_is_deleted");
+                        .HasDatabaseName("ix_beverage_size_is_deleted");
 
-                    b.ToTable("coffee_size", (string)null);
+                    b.ToTable("beverage_size", (string)null);
 
                     b.HasData(
                         new
@@ -458,18 +458,18 @@ namespace Waitless.DAL.Migrations
                         .HasColumnName("name");
 
                     b.HasKey("LanguageId", "BeverageId")
-                        .HasName("pk_coffee_translation");
+                        .HasName("pk_beverage_translation");
 
                     b.HasIndex("BeverageId")
-                        .HasDatabaseName("ix_coffee_translation_beverage_id");
+                        .HasDatabaseName("ix_beverage_translation_beverage_id");
 
                     b.HasIndex("CreatedDate")
-                        .HasDatabaseName("ix_coffee_translation_created_date");
+                        .HasDatabaseName("ix_beverage_translation_created_date");
 
                     b.HasIndex("IsDeleted")
-                        .HasDatabaseName("ix_coffee_translation_is_deleted");
+                        .HasDatabaseName("ix_beverage_translation_is_deleted");
 
-                    b.ToTable("coffee_translation", (string)null);
+                    b.ToTable("beverage_translation", (string)null);
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.BeverageType", b =>
@@ -494,80 +494,15 @@ namespace Waitless.DAL.Migrations
                         .HasColumnName("modify_date");
 
                     b.HasKey("Id")
-                        .HasName("pk_coffee_type");
+                        .HasName("pk_beverage_type");
 
                     b.HasIndex("CreatedDate")
-                        .HasDatabaseName("ix_coffee_type_created_date");
+                        .HasDatabaseName("ix_beverage_type_created_date");
 
                     b.HasIndex("IsDeleted")
-                        .HasDatabaseName("ix_coffee_type_is_deleted");
+                        .HasDatabaseName("ix_beverage_type_is_deleted");
 
-                    b.ToTable("coffee_type", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 7L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 8L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 9L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
+                    b.ToTable("beverage_type", (string)null);
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.BeverageTypeTranslation", b =>
@@ -579,7 +514,7 @@ namespace Waitless.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("BeverageTypeId")
+                    b.Property<long?>("BeverageTypeId")
                         .HasColumnType("bigint")
                         .HasColumnName("beverage_type_id");
 
@@ -601,295 +536,23 @@ namespace Waitless.DAL.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("name");
 
                     b.HasKey("Id")
-                        .HasName("pk_coffee_type_translation");
+                        .HasName("pk_beverage_type_translation");
+
+                    b.HasIndex("BeverageTypeId")
+                        .HasDatabaseName("ix_beverage_type_translation_beverage_type_id");
 
                     b.HasIndex("CreatedDate")
-                        .HasDatabaseName("ix_coffee_type_translation_created_date");
+                        .HasDatabaseName("ix_beverage_type_translation_created_date");
 
                     b.HasIndex("IsDeleted")
-                        .HasDatabaseName("ix_coffee_type_translation_is_deleted");
+                        .HasDatabaseName("ix_beverage_type_translation_is_deleted");
 
-                    b.HasIndex("BeverageTypeId", "LanguageId")
-                        .HasDatabaseName("ix_coffee_type_translation_beverage_type_id_language_id");
-
-                    b.ToTable("coffee_type_translation", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            BeverageTypeId = 1L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 1,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Affogato"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            BeverageTypeId = 1L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 2,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Аффогато"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            BeverageTypeId = 1L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 3,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Աֆֆոքատո"
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            BeverageTypeId = 2L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 1,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Americano"
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            BeverageTypeId = 2L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 2,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Американо"
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            BeverageTypeId = 2L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 3,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Ամերիկանո"
-                        },
-                        new
-                        {
-                            Id = 7L,
-                            BeverageTypeId = 3L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 1,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Latte"
-                        },
-                        new
-                        {
-                            Id = 8L,
-                            BeverageTypeId = 3L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 2,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Латте"
-                        },
-                        new
-                        {
-                            Id = 9L,
-                            BeverageTypeId = 3L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 3,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Լատե"
-                        },
-                        new
-                        {
-                            Id = 10L,
-                            BeverageTypeId = 4L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 1,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Cappuccino"
-                        },
-                        new
-                        {
-                            Id = 11L,
-                            BeverageTypeId = 4L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 2,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Капучино"
-                        },
-                        new
-                        {
-                            Id = 12L,
-                            BeverageTypeId = 4L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 3,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Կապուչինո"
-                        },
-                        new
-                        {
-                            Id = 13L,
-                            BeverageTypeId = 5L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 1,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Mocha"
-                        },
-                        new
-                        {
-                            Id = 14L,
-                            BeverageTypeId = 5L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 2,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Моча"
-                        },
-                        new
-                        {
-                            Id = 15L,
-                            BeverageTypeId = 5L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 3,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Մոչա"
-                        },
-                        new
-                        {
-                            Id = 16L,
-                            BeverageTypeId = 6L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 1,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Macchiato"
-                        },
-                        new
-                        {
-                            Id = 17L,
-                            BeverageTypeId = 6L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 2,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Мачиато"
-                        },
-                        new
-                        {
-                            Id = 18L,
-                            BeverageTypeId = 6L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 3,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Մաչիատո"
-                        },
-                        new
-                        {
-                            Id = 19L,
-                            BeverageTypeId = 7L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 1,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Espresso"
-                        },
-                        new
-                        {
-                            Id = 20L,
-                            BeverageTypeId = 7L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 2,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Еспресо"
-                        },
-                        new
-                        {
-                            Id = 21L,
-                            BeverageTypeId = 7L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 3,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Եսպրեսօ"
-                        },
-                        new
-                        {
-                            Id = 22L,
-                            BeverageTypeId = 8L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 1,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Decaf"
-                        },
-                        new
-                        {
-                            Id = 23L,
-                            BeverageTypeId = 8L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 2,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Декаф"
-                        },
-                        new
-                        {
-                            Id = 24L,
-                            BeverageTypeId = 8L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 3,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Դեկաֆ"
-                        },
-                        new
-                        {
-                            Id = 25L,
-                            BeverageTypeId = 9L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 1,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Frappuccino"
-                        },
-                        new
-                        {
-                            Id = 26L,
-                            BeverageTypeId = 9L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 2,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Фрапучино"
-                        },
-                        new
-                        {
-                            Id = 27L,
-                            BeverageTypeId = 9L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 3,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Ֆրապուփչինո"
-                        });
+                    b.ToTable("beverage_type_translation", (string)null);
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.City", b =>
@@ -4452,13 +4115,13 @@ namespace Waitless.DAL.Migrations
                         .WithMany()
                         .HasForeignKey("BeverageSizeId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("fk_coffee_beverage_size_beverage_size_id");
+                        .HasConstraintName("fk_beverage_beverage_size_beverage_size_id");
 
                     b.HasOne("Waitless.DAL.Models.BeverageType", "BeverageType")
                         .WithMany()
                         .HasForeignKey("BeverageTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("fk_coffee_coffee_types_beverage_type_id");
+                        .HasConstraintName("fk_beverage_beverage_types_beverage_type_id");
 
                     b.Navigation("BeverageSize");
 
@@ -4472,7 +4135,7 @@ namespace Waitless.DAL.Migrations
                         .HasForeignKey("BeverageId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("fk_coffee_photo_coffee_beverage_id");
+                        .HasConstraintName("fk_beverage_photo_beverage_beverage_id");
 
                     b.Navigation("Beverage");
                 });
@@ -4484,7 +4147,7 @@ namespace Waitless.DAL.Migrations
                         .HasForeignKey("BeverageSizeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("fk_beverage_size_translation_coffee_size_beverage_size_id");
+                        .HasConstraintName("fk_beverage_size_translation_beverage_size_beverage_size_id");
 
                     b.Navigation("BeverageSize");
                 });
@@ -4496,21 +4159,18 @@ namespace Waitless.DAL.Migrations
                         .HasForeignKey("BeverageId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("fk_coffee_translation_coffee_beverage_id");
+                        .HasConstraintName("fk_beverage_translation_beverage_beverage_id");
 
                     b.Navigation("Beverage");
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.BeverageTypeTranslation", b =>
                 {
-                    b.HasOne("Waitless.DAL.Models.BeverageType", "BeverageType")
+                    b.HasOne("Waitless.DAL.Models.BeverageType", null)
                         .WithMany("Translations")
                         .HasForeignKey("BeverageTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_coffee_type_translation_coffee_type_beverage_type_id");
-
-                    b.Navigation("BeverageType");
+                        .HasConstraintName("fk_beverage_type_translation_beverage_type_beverage_type_id");
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.City", b =>

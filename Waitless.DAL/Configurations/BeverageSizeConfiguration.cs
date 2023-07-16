@@ -10,6 +10,6 @@ public class BeverageSizeConfiguration : BaseConfiguration<BeverageSize>
     {
         base.Configure(builder);
 
-        builder.ToTable("coffee_size");
+        builder.ToTable("beverage_size");
     }
 }
