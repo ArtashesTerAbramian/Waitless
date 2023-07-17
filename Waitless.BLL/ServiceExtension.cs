@@ -13,6 +13,7 @@ using Waitless.BLL.Services.BeverageService;
 using Waitless.BLL.Services.CityService;
 using Waitless.BLL.Services.UserService;
 using Waitless.BLL.Services.ProvinceService;
+using Waitless.BLL.Services.CartService;
 
 namespace Waitless.BLL;
 public static class ServiceExtension 
@@ -36,6 +37,7 @@ public static class ServiceExtension
         services.AddScoped<IProvinceService, ProvinceService>();
         services.AddScoped<ICityService, CityService>();
         services.AddScoped<IAddressService, AddressService>();
+        services.AddScoped<ICartService, CartService>();
 
         return services;
     }

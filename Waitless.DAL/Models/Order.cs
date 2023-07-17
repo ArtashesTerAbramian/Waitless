@@ -33,4 +33,17 @@ public class Order : BaseEntity
 
     User User { get; set; }
     Address Address { get; set; }
+
+    public override bool Equals(object obj)
+    {
+        var order = obj as Order;
+
+        return UserId == order.UserId
+            && AddressId == order.AddressId
+            && Instruction == order.Instruction
+            && TimingType == order.TimingType
+            && BeReadyOn == order.BeReadyOn
+            && IsReady == order.IsReady
+            && CoffeeIds.SequenceEqual(order.CoffeeIds);
+    }
 }
