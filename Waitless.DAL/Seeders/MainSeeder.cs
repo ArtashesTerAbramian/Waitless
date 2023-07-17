@@ -15,5 +15,6 @@ internal static class MainSeeder
         CitySeeder.SeedData(modelBuilder);
         BeverageSizeSeeder.SeedData(modelBuilder);
         UserSeeder.SeedData(modelBuilder);
+        BeverageTypeSeeder.SeedData(modelBuilder);
     }
 }

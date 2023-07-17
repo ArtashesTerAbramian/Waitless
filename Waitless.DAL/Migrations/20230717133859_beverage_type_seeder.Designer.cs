@@ -12,8 +12,8 @@ using Waitless.DAL;
 namespace Waitless.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230716201855_init")]
-    partial class init
+    [Migration("20230717133859_beverage_type_seeder")]
+    partial class beverage_type_seeder
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -474,7 +474,7 @@ namespace Waitless.DAL.Migrations
                     b.ToTable("beverage_translation", (string)null);
                 });
 
-            modelBuilder.Entity("Waitless.DAL.Models.BeverageTypeEnum", b =>
+            modelBuilder.Entity("Waitless.DAL.Models.BeverageType", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -505,6 +505,43 @@ namespace Waitless.DAL.Migrations
                         .HasDatabaseName("ix_beverage_type_is_deleted");
 
                     b.ToTable("beverage_type", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.BeverageTypeTranslation", b =>
@@ -516,7 +553,7 @@ namespace Waitless.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("BeverageTypeId")
+                    b.Property<long>("BeverageTypeId")
                         .HasColumnType("bigint")
                         .HasColumnName("beverage_type_id");
 
@@ -555,6 +592,158 @@ namespace Waitless.DAL.Migrations
                         .HasDatabaseName("ix_beverage_type_translation_is_deleted");
 
                     b.ToTable("beverage_type_translation", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            BeverageTypeId = 1L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 1,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Coffee"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            BeverageTypeId = 1L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 2,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Кофе"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            BeverageTypeId = 1L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 3,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Սուրճ"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            BeverageTypeId = 2L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 1,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Tea"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            BeverageTypeId = 2L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 2,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Чай"
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            BeverageTypeId = 2L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 3,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Թեյ"
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            BeverageTypeId = 3L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 1,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Smoothie"
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            BeverageTypeId = 3L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 2,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Смузи"
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            BeverageTypeId = 3L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 3,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Սմուզի"
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            BeverageTypeId = 4L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 1,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Lemonade"
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            BeverageTypeId = 4L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 2,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Лимонад"
+                        },
+                        new
+                        {
+                            Id = 12L,
+                            BeverageTypeId = 4L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 3,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Լիմոնադ"
+                        },
+                        new
+                        {
+                            Id = 13L,
+                            BeverageTypeId = 5L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 1,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Juice"
+                        },
+                        new
+                        {
+                            Id = 14L,
+                            BeverageTypeId = 5L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 2,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Сок"
+                        },
+                        new
+                        {
+                            Id = 15L,
+                            BeverageTypeId = 5L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 3,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Ջուս"
+                        });
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.City", b =>
@@ -4119,7 +4308,7 @@ namespace Waitless.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("fk_beverage_beverage_size_beverage_size_id");
 
-                    b.HasOne("Waitless.DAL.Models.BeverageTypeEnum", "BeverageTypeEnum")
+                    b.HasOne("Waitless.DAL.Models.BeverageType", "BeverageType")
                         .WithMany()
                         .HasForeignKey("BeverageTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -4127,7 +4316,7 @@ namespace Waitless.DAL.Migrations
 
                     b.Navigation("BeverageSize");
 
-                    b.Navigation("BeverageTypeEnum");
+                    b.Navigation("BeverageType");
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.BeveragePhoto", b =>
@@ -4168,11 +4357,14 @@ namespace Waitless.DAL.Migrations
 
             modelBuilder.Entity("Waitless.DAL.Models.BeverageTypeTranslation", b =>
                 {
-                    b.HasOne("Waitless.DAL.Models.BeverageTypeEnum", null)
+                    b.HasOne("Waitless.DAL.Models.BeverageType", "BeverageType")
                         .WithMany("Translations")
                         .HasForeignKey("BeverageTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
                         .HasConstraintName("fk_beverage_type_translation_beverage_type_beverage_type_id");
+
+                    b.Navigation("BeverageType");
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.City", b =>
@@ -4240,7 +4432,7 @@ namespace Waitless.DAL.Migrations
                     b.Navigation("Translations");
                 });
 
-            modelBuilder.Entity("Waitless.DAL.Models.BeverageTypeEnum", b =>
+            modelBuilder.Entity("Waitless.DAL.Models.BeverageType", b =>
                 {
                     b.Navigation("Translations");
                 });

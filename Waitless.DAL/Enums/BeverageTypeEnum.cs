@@ -1,6 +1,6 @@
 ﻿namespace Waitless.DAL.Enums;
 
-public enum BeverageType
+public enum BeverageTypeEnum
 {
     Coffee = 1,
     Tea = 2,
