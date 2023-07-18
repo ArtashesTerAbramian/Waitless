@@ -33,7 +33,7 @@ public class ProvinceService : IProvinceService
             .Include(x => x.Translations)
             .FirstOrDefaultAsync(x => x.Id == id);
 
-        if(province == null)
+        if(province is null)
         {
             return Result.NotFound();
         }

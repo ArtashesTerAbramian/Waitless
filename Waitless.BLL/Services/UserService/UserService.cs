@@ -71,7 +71,7 @@ public class UserService: IUserService
     {
         var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
 
-        if (user == null)
+        if (user is null)
         {
             return Result.NotFound();
         }
@@ -83,7 +83,7 @@ public class UserService: IUserService
     {
         var user = await _db.Users.FirstOrDefaultAsync(x => x.UserName == username.ToLower());
 
-        if(user == null)
+        if(user is null)
         {
             return Result.NotFound();
         }
@@ -97,7 +97,7 @@ public class UserService: IUserService
 
         var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == dto.Id);
 
-        if (user == null)
+        if (user is null)
         {
             return Result.NotFound();
         }
@@ -132,7 +132,7 @@ public class UserService: IUserService
     {
         var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
 
-        if(user == null)
+        if(user is null)
         {
             return Result.NotFound();
         }

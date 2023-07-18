@@ -8,7 +8,7 @@ public class UserFilter : BaseFilter<User>
     public string? Email { get; set; }
     public override IQueryable<User> CreateQuery(IQueryable<User> query)
     {
-        if (Query != null)
+        if (Query is { })
         {
             return Query;
         }

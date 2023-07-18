@@ -7,7 +7,7 @@ public class CityFilter : BaseFilter<City>
     public string? Name { get; set; }
     public override IQueryable<City> CreateQuery(IQueryable<City> query)
     {
-        if (Query != null)
+        if (Query is { })
         {
             return Query;
         }

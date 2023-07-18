@@ -12,17 +12,17 @@ public class OrderFilter : BaseFilter<Order>
 
     public override IQueryable<Order> CreateQuery(IQueryable<Order> query)
     {
-        if(Query != null)
+        if(Query is { })
         {
             return  Query;
         }
 
-        if (FromDate != null)
+        if (FromDate is { })
         {
             query = query.Where(x => x.CreatedDate > FromDate);
         }
 
-        if(ToDate != null)
+        if(ToDate is { })
         {
             query = query.Where(x => x.CreatedDate < ToDate);
         }

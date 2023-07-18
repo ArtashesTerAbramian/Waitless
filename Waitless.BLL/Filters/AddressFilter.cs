@@ -8,7 +8,7 @@ public class AddressFilter : BaseFilter<Address>
     
     public override IQueryable<Address> CreateQuery(IQueryable<Address> query)
     {
-        if (Query != null)
+        if (Query is {})
         {
             return Query;
         }

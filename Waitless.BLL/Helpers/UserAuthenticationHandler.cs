@@ -38,7 +38,7 @@ public class UserAuthenticationHandler : AuthenticationHandler<AuthenticationSch
 
         var user = await _userSessionService.GetByToken(token);
 
-        if (user == null)
+        if (user is null)
         {
             // Invalid token, so return failure
             return AuthenticateResult.Fail("Invalid token");

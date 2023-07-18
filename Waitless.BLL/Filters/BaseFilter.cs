@@ -65,7 +65,7 @@ public abstract class BaseFilter<T>
     {
         query = CreateQuery(query);
 
-        if (Query == null)
+        if (Query is null)
             Query = query;
         if (Take.HasValue)
             query = query.Skip((Skip - 1) * Take.Value).Take(Take.Value);

@@ -8,7 +8,7 @@ public class CartFilter : BaseFilter<Cart>
 
     public override IQueryable<Cart> CreateQuery(IQueryable<Cart> query)
     {
-        if(Query != null)
+        if(Query is { })
         {
             return Query;
         }

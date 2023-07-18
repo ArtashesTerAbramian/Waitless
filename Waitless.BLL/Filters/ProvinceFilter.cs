@@ -7,7 +7,7 @@ public class ProvinceFilter : BaseFilter<Province>
     public string? Name { get; set; }
     public override IQueryable<Province> CreateQuery(IQueryable<Province> query)
     {
-        if(Query != null)
+        if(Query is { })
         {
             return Query;
         }

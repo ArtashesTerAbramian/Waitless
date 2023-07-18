@@ -46,7 +46,7 @@ public class OrderService : IOrderService
     {
         var order = await _db.Orders.FirstOrDefaultAsync(x => x.Id == id);
 
-        if(order == null) 
+        if(order is null) 
         {
             return Result.NotFound();
         }
@@ -72,7 +72,7 @@ public class OrderService : IOrderService
         var order = await _db.Orders
             .FirstOrDefaultAsync(x => x.Id == id);
 
-        if(order == null)
+        if(order is null)
         {
             return Result.NotFound();
         }
@@ -85,7 +85,7 @@ public class OrderService : IOrderService
         var order = await _db.Orders
             .FirstOrDefaultAsync(x => x.Id == dto.Id);
 
-        if(order == null)
+        if(order is null)
         {
             return Result.NotFound();
         }

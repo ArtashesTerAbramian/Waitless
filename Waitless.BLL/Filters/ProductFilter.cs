@@ -13,7 +13,7 @@ namespace Waitless.BLL.Filters
         
         public override IQueryable<Product> CreateQuery(IQueryable<Product> query)
         {
-            if(Query != null)
+            if(Query is { })
             {
                 return Query;
             }

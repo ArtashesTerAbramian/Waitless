@@ -37,7 +37,7 @@ public class UserSessionService : IUserSessionService
             .FirstOrDefaultAsync(x => x.UserName == dto.UserName.ToLower());
 
 
-        if (user == null || !_passwordHashHelper.VerifyPassword(dto.Password, user.PasswordHash))
+        if (user is null || !_passwordHashHelper.VerifyPassword(dto.Password, user.PasswordHash))
         {
             return Result.Error("Incorect entered data");
         }
@@ -66,7 +66,7 @@ public class UserSessionService : IUserSessionService
 
         var session = await _db.UserSessions.FirstOrDefaultAsync(x => x.Token == token.ToString());
 
-        if (session != null)
+        if (session is {})
         {
             session.IsExpired = true;
             session.IsDeleted = true;
@@ -84,7 +84,7 @@ public class UserSessionService : IUserSessionService
             .FirstOrDefaultAsync(x => x.Token == token && !x.IsExpired
                                                        && x.User.IsDeleted != true);
 
-        if (userSession == null)
+        if (userSession is null)
         {
             return null;
         }

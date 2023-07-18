@@ -62,7 +62,7 @@ public class AppDbContext : DbContext
             property.SetColumnType("decimal(18,2)");
         }
 
-        if (_contextModificatorService != null && _contextModificatorService.IsGlobalQueryFiltersEnable)
+        if (_contextModificatorService is { } && _contextModificatorService.IsGlobalQueryFiltersEnable)
         {
             modelBuilder.ApplyGlobalFilters<BaseEntity>(e => e.IsDeleted == false);
             modelBuilder.ApplyGlobalFilterForTranslationEntities<BaseTranslationEntity>(e => e.LanguageId == _languageService.LanguageId);

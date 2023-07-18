@@ -31,7 +31,7 @@ public class AddressService : IAddressService
     {
         var address = await _db.Addresses.FirstOrDefaultAsync(x => x.Id == id);
 
-        if (address == null)
+        if (address is null)
         {
             return Result.NotFound();
         }

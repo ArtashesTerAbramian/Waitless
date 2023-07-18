@@ -44,7 +44,7 @@ public class ProductService : IProductService
 
         await _db.SaveChangesAsync();
 
-        if (dto.File != null)
+        if (dto.File is { })
         {
             var folderName = coffee.Translations.First(x => x.LanguageId == (int)LanguageEnum.English).Name;
 
@@ -68,23 +68,23 @@ public class ProductService : IProductService
     {
         using TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
 
-        var coffee = await _db.Product
+        var product = await _db.Product
             .Include(x => x.Translations)
             .FirstOrDefaultAsync(x => x.Id == id);
 
-        if (coffee == null)
+        if (product is null)
         {
             return Result.NotFound();
         }
 
-        coffee.IsDeleted = true;
+        product.IsDeleted = true;
 
-        foreach (var translation in coffee.Translations)
+        foreach (var translation in product.Translations)
         {
             translation.IsDeleted = true;
         }
 
-        foreach (var photo in coffee.Files)
+        foreach (var photo in product.Files)
         {
             photo.IsDeleted = true;
             _fileHelper.DeleteFile(photo.FileUrl);
@@ -103,70 +103,70 @@ public class ProductService : IProductService
             .Include(x => x.Translations)
             .Include(x => x.Files);
 
-        var coffees = await filter.FilterObjects(query).ToListAsync();
+        var products = await filter.FilterObjects(query).ToListAsync();
 
-        return new PagedResult<List<ProductDto>>(await filter.GetPagedInfoAsync(query), coffees.MapToProductsDtos());
+        return new PagedResult<List<ProductDto>>(await filter.GetPagedInfoAsync(query), products.MapToProductsDtos());
     }
 
     public async Task<Result<ProductDto>> GetById(long id)
     {
-        var coffee = await _db.Product
+        var product = await _db.Product
             .Include(x => x.Translations)
             .Include(x => x.Files)
             .FirstOrDefaultAsync(x => x.Id == id);
 
-        if (coffee == null)
+        if (product is null)
         {
             return Result.NotFound();
         }
 
-        return coffee.MapProductDto();
+        return product.MapProductDto();
     }
 
     public async Task<Result> Update(UpdateProductDto dto)
     {
         using TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
 
-        var coffee = await _db.Product
+        var product = await _db.Product
             .IgnoreQueryFilters()
             .Include(x => x.Translations)
             .Include(x => x.Files)
             .FirstOrDefaultAsync(x => x.Id == dto.Id);
 
-        if (coffee == null)
+        if (product is null)
         {
             return Result.NotFound();
         }
 
-        // coffee.ProductTypeId = dto.ProductTypeId;
-        coffee.Price = dto.Price;
+        product.ProductTypeId = dto.ProductTypeId;
+        product.Price = dto.Price;
 
-        if (dto.Translations != null && dto.Translations.Any())
+        if (dto.Translations is null && dto.Translations.Any())
         {
             foreach (var translationDto in dto.Translations)
             {
-                var translation = coffee.Translations.First(x => x.LanguageId == translationDto.LanguageId);
+                var translation = product.Translations.First(x => x.LanguageId == translationDto.LanguageId);
 
                 translation.Name = translation.Name;
                 translation.Description = translation.Description;
             }
         }
 
-        if (dto.Photo != null)
+        if (dto.Photo is {})
         {
-            var oldPhoto = coffee.Files.FirstOrDefault();
-            if (oldPhoto != null)
+            var oldPhoto = product.Files.FirstOrDefault();
+            if (oldPhoto is {})
             {
                 oldPhoto.IsDeleted = true;
             }
 
-            var folderName = coffee.Translations.FirstOrDefault(x => x.LanguageId == (int)LanguageEnum.English).Name;
+            var folderName = product.Translations.FirstOrDefault(x => x.LanguageId == (int)LanguageEnum.English).Name;
 
             var newPhoto = await _fileHelper.UploadFile(dto.Photo, folderName, null);
 
-            coffee.Files.Add(new ProductPhoto()
+            product.Files.Add(new ProductPhoto()
             {
-                ProductId = coffee.Id,
+                ProductId = product.Id,
                 FileUrl = newPhoto,
             });
         }

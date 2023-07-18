@@ -88,7 +88,7 @@ public class CartService : ICartService
     {
         var cart = await _db.Carts.FirstOrDefaultAsync(x => x.Id == id);
 
-        if(cart == null)
+        if(cart is null)
         {
             return Result.NotFound();
         }
@@ -102,7 +102,7 @@ public class CartService : ICartService
 
         var cart = await _db.Carts.FirstOrDefaultAsync(x => x.Id == dto.Id);
 
-        if (cart == null)
+        if (cart is null)
         {
             return Result.NotFound();
         }

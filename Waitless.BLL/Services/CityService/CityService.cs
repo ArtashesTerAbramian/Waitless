@@ -24,7 +24,7 @@ public class CityService : ICityService
             .ThenInclude(x => x.Translations)
             .FirstOrDefaultAsync(x => x.Id == id);
 
-        if (city == null)
+        if (city is null)
         {
             return Result.NotFound();
         }
