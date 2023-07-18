@@ -1,6 +1,6 @@
 ﻿namespace Waitless.DTO.ProductDtos;
 
-public class BeverageSizeDto
+public class ProductSizeDto
 {
     public string Size { get; set; }
 }

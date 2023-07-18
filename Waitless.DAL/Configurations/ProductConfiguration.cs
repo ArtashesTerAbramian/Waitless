@@ -10,7 +10,7 @@ public class ProductConfiguration : BaseConfiguration<Product>
     {
         base.Configure(builder);
 
-        builder.ToTable("beverage");
+        builder.ToTable("product");
 
         builder.Property(c => c.Price)
             .HasColumnType("decimal(18,2)");

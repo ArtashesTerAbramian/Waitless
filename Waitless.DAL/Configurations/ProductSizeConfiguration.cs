@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Waitless.DAL.Configurations;
 
-public class BeverageSizeConfiguration : BaseConfiguration<ProductSize>
+public class ProductSizeConfiguration : BaseConfiguration<ProductSize>
 {
     public override void Configure(EntityTypeBuilder<ProductSize> builder)
     {
         base.Configure(builder);
 
-        builder.ToTable("beverage_size");
+        builder.ToTable("product_size");
     }
 }

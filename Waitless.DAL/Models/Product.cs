@@ -15,6 +15,6 @@ public class Product : BaseWithMedia<ProductPhoto>
     public decimal Price { get; set; }
 
     public ProductType ProductType { get; set; }
-    public BeverageSize ProductSize { get; set; }
+    public ProductSize ProductSize { get; set; }
     public ICollection<ProductTranslation> Translations { get; set; }
 }

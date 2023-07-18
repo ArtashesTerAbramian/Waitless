@@ -177,4 +177,11 @@ public class ProductService : IProductService
 
         return Result.Success();
     }
+
+
+    public async Task<decimal> PriceSumAsync(List<long> ids)
+    {
+        return await _db.Product.Select(x => x.Price).SumAsync(); 
+    }
+
 }

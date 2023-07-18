@@ -10,7 +10,7 @@ public class ProductTypeTranslationConfiguration : BaseConfiguration<ProductType
     {
         base.Configure(builder);
 
-        builder.ToTable("beverage_type_translation");
+        builder.ToTable("product_type_translation");
 
         builder.Property(x => x.Name)
             .HasMaxLength(50);

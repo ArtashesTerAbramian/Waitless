@@ -12,7 +12,7 @@ using Waitless.DAL;
 namespace Waitless.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230716201855_init")]
+    [Migration("20230718114951_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,7 +119,7 @@ namespace Waitless.DAL.Migrations
                     b.ToTable("address_translation", (string)null);
                 });
 
-            modelBuilder.Entity("Waitless.DAL.Models.Product", b =>
+            modelBuilder.Entity("Waitless.DAL.Models.Cart", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -127,14 +127,6 @@ namespace Waitless.DAL.Migrations
                         .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<long?>("ProductSizeId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("beverage_size_id");
-
-                    b.Property<long?>("ProductTypeId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("beverage_type_id");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone")
@@ -148,413 +140,27 @@ namespace Waitless.DAL.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("modify_date");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal>("TotalPrice")
                         .HasColumnType("numeric(18,2)")
-                        .HasColumnName("price");
+                        .HasColumnName("total_price");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_beverage");
-
-                    b.HasIndex("ProductSizeId")
-                        .HasDatabaseName("ix_beverage_beverage_size_id");
-
-                    b.HasIndex("ProductTypeId")
-                        .HasDatabaseName("ix_beverage_beverage_type_id");
+                        .HasName("pk_cart");
 
                     b.HasIndex("CreatedDate")
-                        .HasDatabaseName("ix_beverage_created_date");
+                        .HasDatabaseName("ix_cart_created_date");
 
                     b.HasIndex("IsDeleted")
-                        .HasDatabaseName("ix_beverage_is_deleted");
+                        .HasDatabaseName("ix_cart_is_deleted");
 
-                    b.ToTable("beverage", (string)null);
-                });
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_cart_user_id");
 
-            modelBuilder.Entity("Waitless.DAL.Models.BeveragePhoto", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("beverage_id");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_date");
-
-                    b.Property<string>("FileUrl")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnName("file_url");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
-
-                    b.Property<DateTime?>("ModifyDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modify_date");
-
-                    b.HasKey("Id")
-                        .HasName("pk_beverage_photo");
-
-                    b.HasIndex("ProductId")
-                        .HasDatabaseName("ix_beverage_photo_beverage_id");
-
-                    b.HasIndex("CreatedDate")
-                        .HasDatabaseName("ix_beverage_photo_created_date");
-
-                    b.HasIndex("IsDeleted")
-                        .HasDatabaseName("ix_beverage_photo_is_deleted");
-
-                    b.ToTable("beverage_photo", (string)null);
-                });
-
-            modelBuilder.Entity("Waitless.DAL.Models.ProductSize", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_date");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
-
-                    b.Property<DateTime?>("ModifyDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modify_date");
-
-                    b.Property<int>("SizeEnum")
-                        .HasColumnType("integer")
-                        .HasColumnName("size_enum");
-
-                    b.HasKey("Id")
-                        .HasName("pk_beverage_size");
-
-                    b.HasIndex("CreatedDate")
-                        .HasDatabaseName("ix_beverage_size_created_date");
-
-                    b.HasIndex("IsDeleted")
-                        .HasDatabaseName("ix_beverage_size_is_deleted");
-
-                    b.ToTable("beverage_size", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            SizeEnum = 1
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            SizeEnum = 2
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            SizeEnum = 3
-                        });
-                });
-
-            modelBuilder.Entity("Waitless.DAL.Models.BeverageSizeTranslation", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("ProductSizeId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("beverage_size_id");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_date");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
-
-                    b.Property<int>("LanguageId")
-                        .HasColumnType("integer")
-                        .HasColumnName("language_id");
-
-                    b.Property<DateTime?>("ModifyDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modify_date");
-
-                    b.Property<string>("Size")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("size");
-
-                    b.HasKey("Id")
-                        .HasName("pk_beverage_size_translation");
-
-                    b.HasIndex("ProductSizeId")
-                        .HasDatabaseName("ix_beverage_size_translation_beverage_size_id");
-
-                    b.HasIndex("CreatedDate")
-                        .HasDatabaseName("ix_beverage_size_translation_created_date");
-
-                    b.HasIndex("IsDeleted")
-                        .HasDatabaseName("ix_beverage_size_translation_is_deleted");
-
-                    b.ToTable("beverage_size_translation", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            BeverageSizeId = 1L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 1,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Size = "Small"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            BeverageSizeId = 1L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 2,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Size = "Маленький"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            BeverageSizeId = 1L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 3,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Size = "Փոքր"
-                        },
-                        new
-                        {
-                            Id = 4L,
-                            BeverageSizeId = 2L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 1,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Size = "Medium"
-                        },
-                        new
-                        {
-                            Id = 5L,
-                            BeverageSizeId = 2L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 2,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Size = "Средний"
-                        },
-                        new
-                        {
-                            Id = 6L,
-                            BeverageSizeId = 2L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 3,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Size = "Միջին"
-                        },
-                        new
-                        {
-                            Id = 7L,
-                            BeverageSizeId = 3L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 1,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Size = "Large"
-                        },
-                        new
-                        {
-                            Id = 8L,
-                            BeverageSizeId = 3L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 2,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Size = "Большой"
-                        },
-                        new
-                        {
-                            Id = 9L,
-                            BeverageSizeId = 3L,
-                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 3,
-                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Size = "Մեծ"
-                        });
-                });
-
-            modelBuilder.Entity("Waitless.DAL.Models.BeverageTranslation", b =>
-                {
-                    b.Property<int>("LanguageId")
-                        .HasColumnType("integer")
-                        .HasColumnName("language_id");
-
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("beverage_id");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_date");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnName("description");
-
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
-
-                    b.Property<DateTime?>("ModifyDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modify_date");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnName("name");
-
-                    b.HasKey("LanguageId", "ProductId")
-                        .HasName("pk_beverage_translation");
-
-                    b.HasIndex("ProductId")
-                        .HasDatabaseName("ix_beverage_translation_beverage_id");
-
-                    b.HasIndex("CreatedDate")
-                        .HasDatabaseName("ix_beverage_translation_created_date");
-
-                    b.HasIndex("IsDeleted")
-                        .HasDatabaseName("ix_beverage_translation_is_deleted");
-
-                    b.ToTable("beverage_translation", (string)null);
-                });
-
-            modelBuilder.Entity("Waitless.DAL.Models.ProductTypeEnum", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_date");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
-
-                    b.Property<DateTime?>("ModifyDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modify_date");
-
-                    b.HasKey("Id")
-                        .HasName("pk_beverage_type");
-
-                    b.HasIndex("CreatedDate")
-                        .HasDatabaseName("ix_beverage_type_created_date");
-
-                    b.HasIndex("IsDeleted")
-                        .HasDatabaseName("ix_beverage_type_is_deleted");
-
-                    b.ToTable("beverage_type", (string)null);
-                });
-
-            modelBuilder.Entity("Waitless.DAL.Models.BeverageTypeTranslation", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<long?>("ProductTypeId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("beverage_type_id");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_date");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
-
-                    b.Property<int>("LanguageId")
-                        .HasColumnType("integer")
-                        .HasColumnName("language_id");
-
-                    b.Property<DateTime?>("ModifyDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("modify_date");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id")
-                        .HasName("pk_beverage_type_translation");
-
-                    b.HasIndex("ProductTypeId")
-                        .HasDatabaseName("ix_beverage_type_translation_beverage_type_id");
-
-                    b.HasIndex("CreatedDate")
-                        .HasDatabaseName("ix_beverage_type_translation_created_date");
-
-                    b.HasIndex("IsDeleted")
-                        .HasDatabaseName("ix_beverage_type_translation_is_deleted");
-
-                    b.ToTable("beverage_type_translation", (string)null);
+                    b.ToTable("cart", (string)null);
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.City", b =>
@@ -3469,6 +3075,633 @@ namespace Waitless.DAL.Migrations
                     b.ToTable("orders", (string)null);
                 });
 
+            modelBuilder.Entity("Waitless.DAL.Models.Product", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modify_date");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("price");
+
+                    b.Property<long?>("ProductSizeId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("product_size_id");
+
+                    b.Property<long?>("ProductTypeId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("product_type_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_product");
+
+                    b.HasIndex("CreatedDate")
+                        .HasDatabaseName("ix_product_created_date");
+
+                    b.HasIndex("IsDeleted")
+                        .HasDatabaseName("ix_product_is_deleted");
+
+                    b.HasIndex("ProductSizeId")
+                        .HasDatabaseName("ix_product_product_size_id");
+
+                    b.HasIndex("ProductTypeId")
+                        .HasDatabaseName("ix_product_product_type_id");
+
+                    b.ToTable("product", (string)null);
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.ProductPhoto", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<string>("FileUrl")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("file_url");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modify_date");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("product_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_product_photo");
+
+                    b.HasIndex("CreatedDate")
+                        .HasDatabaseName("ix_product_photo_created_date");
+
+                    b.HasIndex("IsDeleted")
+                        .HasDatabaseName("ix_product_photo_is_deleted");
+
+                    b.HasIndex("ProductId")
+                        .HasDatabaseName("ix_product_photo_product_id");
+
+                    b.ToTable("product_photo", (string)null);
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.ProductSize", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modify_date");
+
+                    b.Property<int>("SizeEnum")
+                        .HasColumnType("integer")
+                        .HasColumnName("size_enum");
+
+                    b.HasKey("Id")
+                        .HasName("pk_product_size");
+
+                    b.HasIndex("CreatedDate")
+                        .HasDatabaseName("ix_product_size_created_date");
+
+                    b.HasIndex("IsDeleted")
+                        .HasDatabaseName("ix_product_size_is_deleted");
+
+                    b.ToTable("product_size", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            SizeEnum = 1
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            SizeEnum = 2
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            SizeEnum = 3
+                        });
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.ProductSizeTranslation", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("integer")
+                        .HasColumnName("language_id");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modify_date");
+
+                    b.Property<long>("ProductSizeId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("product_size_id");
+
+                    b.Property<string>("Size")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("size");
+
+                    b.HasKey("Id")
+                        .HasName("pk_product_size_translation");
+
+                    b.HasIndex("CreatedDate")
+                        .HasDatabaseName("ix_product_size_translation_created_date");
+
+                    b.HasIndex("IsDeleted")
+                        .HasDatabaseName("ix_product_size_translation_is_deleted");
+
+                    b.HasIndex("ProductSizeId")
+                        .HasDatabaseName("ix_product_size_translation_product_size_id");
+
+                    b.ToTable("product_size_translation", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 1,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ProductSizeId = 1L,
+                            Size = "Small"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 2,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ProductSizeId = 1L,
+                            Size = "Маленький"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 3,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ProductSizeId = 1L,
+                            Size = "Փոքր"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 1,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ProductSizeId = 2L,
+                            Size = "Medium"
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 2,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ProductSizeId = 2L,
+                            Size = "Средний"
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 3,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ProductSizeId = 2L,
+                            Size = "Միջին"
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 1,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ProductSizeId = 3L,
+                            Size = "Large"
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 2,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ProductSizeId = 3L,
+                            Size = "Большой"
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 3,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ProductSizeId = 3L,
+                            Size = "Մեծ"
+                        });
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.ProductTranslation", b =>
+                {
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("integer")
+                        .HasColumnName("language_id");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("product_id");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("description");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modify_date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("name");
+
+                    b.HasKey("LanguageId", "ProductId")
+                        .HasName("pk_product_translation");
+
+                    b.HasIndex("CreatedDate")
+                        .HasDatabaseName("ix_product_translation_created_date");
+
+                    b.HasIndex("IsDeleted")
+                        .HasDatabaseName("ix_product_translation_is_deleted");
+
+                    b.HasIndex("ProductId")
+                        .HasDatabaseName("ix_product_translation_product_id");
+
+                    b.ToTable("product_translation", (string)null);
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.ProductType", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modify_date");
+
+                    b.HasKey("Id")
+                        .HasName("pk_product_type");
+
+                    b.HasIndex("CreatedDate")
+                        .HasDatabaseName("ix_product_type_created_date");
+
+                    b.HasIndex("IsDeleted")
+                        .HasDatabaseName("ix_product_type_is_deleted");
+
+                    b.ToTable("product_type", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.ProductTypeTranslation", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("integer")
+                        .HasColumnName("language_id");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modify_date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("name");
+
+                    b.Property<long>("ProductTypeId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("product_type_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_product_type_translation");
+
+                    b.HasIndex("CreatedDate")
+                        .HasDatabaseName("ix_product_type_translation_created_date");
+
+                    b.HasIndex("IsDeleted")
+                        .HasDatabaseName("ix_product_type_translation_is_deleted");
+
+                    b.HasIndex("ProductTypeId")
+                        .HasDatabaseName("ix_product_type_translation_product_type_id");
+
+                    b.ToTable("product_type_translation", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 1,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Coffee",
+                            ProductTypeId = 1L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 2,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Кофе",
+                            ProductTypeId = 1L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 3,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Սուրճ",
+                            ProductTypeId = 1L
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 1,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Tea",
+                            ProductTypeId = 2L
+                        },
+                        new
+                        {
+                            Id = 5L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 2,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Чай",
+                            ProductTypeId = 2L
+                        },
+                        new
+                        {
+                            Id = 6L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 3,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Թեյ",
+                            ProductTypeId = 2L
+                        },
+                        new
+                        {
+                            Id = 7L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 1,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Smoothie",
+                            ProductTypeId = 3L
+                        },
+                        new
+                        {
+                            Id = 8L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 2,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Смузи",
+                            ProductTypeId = 3L
+                        },
+                        new
+                        {
+                            Id = 9L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 3,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Սմուզի",
+                            ProductTypeId = 3L
+                        },
+                        new
+                        {
+                            Id = 10L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 1,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Lemonade",
+                            ProductTypeId = 4L
+                        },
+                        new
+                        {
+                            Id = 11L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 2,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Лимонад",
+                            ProductTypeId = 4L
+                        },
+                        new
+                        {
+                            Id = 12L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 3,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Լիմոնադ",
+                            ProductTypeId = 4L
+                        },
+                        new
+                        {
+                            Id = 13L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 1,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Juice",
+                            ProductTypeId = 5L
+                        },
+                        new
+                        {
+                            Id = 14L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 2,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Сок",
+                            ProductTypeId = 5L
+                        },
+                        new
+                        {
+                            Id = 15L,
+                            CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 3,
+                            ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Ջուս",
+                            ProductTypeId = 5L
+                        });
+                });
+
             modelBuilder.Entity("Waitless.DAL.Models.Province", b =>
                 {
                     b.Property<long>("Id")
@@ -4111,68 +4344,16 @@ namespace Waitless.DAL.Migrations
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("Waitless.DAL.Models.Product", b =>
+            modelBuilder.Entity("Waitless.DAL.Models.Cart", b =>
                 {
-                    b.HasOne("Waitless.DAL.Models.ProductSize", "ProductSize")
+                    b.HasOne("Waitless.DAL.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("ProductSizeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("fk_beverage_beverage_size_beverage_size_id");
-
-                    b.HasOne("Waitless.DAL.Models.ProductTypeEnum", "ProductTypeEnum")
-                        .WithMany()
-                        .HasForeignKey("ProductTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("fk_beverage_beverage_types_beverage_type_id");
-
-                    b.Navigation("ProductSize");
-
-                    b.Navigation("ProductTypeEnum");
-                });
-
-            modelBuilder.Entity("Waitless.DAL.Models.BeveragePhoto", b =>
-                {
-                    b.HasOne("Waitless.DAL.Models.Product", "Product")
-                        .WithMany("Files")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("fk_beverage_photo_beverage_beverage_id");
+                        .HasConstraintName("fk_cart_users_user_id");
 
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Waitless.DAL.Models.BeverageSizeTranslation", b =>
-                {
-                    b.HasOne("Waitless.DAL.Models.ProductSize", "ProductSize")
-                        .WithMany("Translations")
-                        .HasForeignKey("ProductSizeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_beverage_size_translation_beverage_size_beverage_size_id");
-
-                    b.Navigation("ProductSize");
-                });
-
-            modelBuilder.Entity("Waitless.DAL.Models.BeverageTranslation", b =>
-                {
-                    b.HasOne("Waitless.DAL.Models.Product", "Product")
-                        .WithMany("Translations")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("fk_beverage_translation_beverage_beverage_id");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Waitless.DAL.Models.BeverageTypeTranslation", b =>
-                {
-                    b.HasOne("Waitless.DAL.Models.ProductTypeEnum", null)
-                        .WithMany("Translations")
-                        .HasForeignKey("ProductTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("fk_beverage_type_translation_beverage_type_beverage_type_id");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.City", b =>
@@ -4197,6 +4378,73 @@ namespace Waitless.DAL.Migrations
                         .HasConstraintName("fk_city_translation_city_city_id");
 
                     b.Navigation("City");
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.Product", b =>
+                {
+                    b.HasOne("Waitless.DAL.Models.ProductSize", "ProductSize")
+                        .WithMany()
+                        .HasForeignKey("ProductSizeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_product_product_size_product_size_id");
+
+                    b.HasOne("Waitless.DAL.Models.ProductType", "ProductType")
+                        .WithMany()
+                        .HasForeignKey("ProductTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_product_product_types_product_type_id");
+
+                    b.Navigation("ProductSize");
+
+                    b.Navigation("ProductType");
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.ProductPhoto", b =>
+                {
+                    b.HasOne("Waitless.DAL.Models.Product", "Product")
+                        .WithMany("Files")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_product_photo_product_product_id");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.ProductSizeTranslation", b =>
+                {
+                    b.HasOne("Waitless.DAL.Models.ProductSize", "ProductSize")
+                        .WithMany("Translations")
+                        .HasForeignKey("ProductSizeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_product_size_translation_product_size_product_size_id");
+
+                    b.Navigation("ProductSize");
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.ProductTranslation", b =>
+                {
+                    b.HasOne("Waitless.DAL.Models.Product", "Product")
+                        .WithMany("Translations")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_product_translation_product_product_id");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.ProductTypeTranslation", b =>
+                {
+                    b.HasOne("Waitless.DAL.Models.ProductType", "ProductType")
+                        .WithMany("Translations")
+                        .HasForeignKey("ProductTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_product_type_translation_product_type_product_type_id");
+
+                    b.Navigation("ProductType");
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.ProvinceTranslation", b =>
@@ -4228,6 +4476,11 @@ namespace Waitless.DAL.Migrations
                     b.Navigation("Translations");
                 });
 
+            modelBuilder.Entity("Waitless.DAL.Models.City", b =>
+                {
+                    b.Navigation("Translations");
+                });
+
             modelBuilder.Entity("Waitless.DAL.Models.Product", b =>
                 {
                     b.Navigation("Files");
@@ -4240,12 +4493,7 @@ namespace Waitless.DAL.Migrations
                     b.Navigation("Translations");
                 });
 
-            modelBuilder.Entity("Waitless.DAL.Models.ProductTypeEnum", b =>
-                {
-                    b.Navigation("Translations");
-                });
-
-            modelBuilder.Entity("Waitless.DAL.Models.City", b =>
+            modelBuilder.Entity("Waitless.DAL.Models.ProductType", b =>
                 {
                     b.Navigation("Translations");
                 });

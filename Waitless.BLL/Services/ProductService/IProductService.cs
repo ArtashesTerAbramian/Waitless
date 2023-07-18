@@ -11,4 +11,5 @@ public interface IProductService
     Task<PagedResult<List<ProductDto>>> GetAll(ProductFilter filter);
     Task<Result<ProductDto>> GetById(long id);
     Task<Result> Update(UpdateProductDto dto);
+    Task<decimal> PriceSumAsync(List<long> ids); 
 }

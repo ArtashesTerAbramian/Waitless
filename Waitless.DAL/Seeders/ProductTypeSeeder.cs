@@ -8,20 +8,20 @@ namespace Waitless.DAL.Seeders
     {
         public static void SeedData(ModelBuilder modelBuilder)
         {
-            var beverageTypeNamesEnglish = Enum.GetValues(typeof(ProductTypeEnum));
+            var productTypeNamesEnglish = Enum.GetValues(typeof(ProductTypeEnum));
 
-            List<string> beverageTypeNamesRussian = new List<string>
+            List<string> productTypeNamesRussian = new List<string>
             {
                 "Кофе", "Чай", "Смузи", "Лимонад", "Сок"
             };
 
-            List<string> beverageTypeNamesArmenian = new List<string>
+            List<string> productTypeNamesArmenian = new List<string>
             {
                 "Սուրճ", "Թեյ", "Սմուզի", "Լիմոնադ", "Ջուս"
             };
 
             int translationId = 0;
-            for (int i = 0; i < beverageTypeNamesEnglish.Length; i++)
+            for (int i = 0; i < productTypeNamesEnglish.Length; i++)
             {
                 modelBuilder.Entity<ProductType>().HasData(new ProductType
                 {
@@ -36,7 +36,7 @@ namespace Waitless.DAL.Seeders
                     Id = ++translationId,
                     ProductTypeId = i + 1,
                     LanguageId = 1,
-                    Name = beverageTypeNamesEnglish.GetValue(i).ToString(),
+                    Name = productTypeNamesEnglish.GetValue(i).ToString(),
                     CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                     ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                     IsDeleted = false,
@@ -47,7 +47,7 @@ namespace Waitless.DAL.Seeders
                     Id = ++translationId,
                     ProductTypeId = i + 1,
                     LanguageId = 2,
-                    Name = beverageTypeNamesRussian[i],
+                    Name = productTypeNamesRussian[i],
                     CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                     ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                     IsDeleted = false,
@@ -58,7 +58,7 @@ namespace Waitless.DAL.Seeders
                     Id = ++translationId,
                     ProductTypeId = i + 1,
                     LanguageId = 3,
-                    Name = beverageTypeNamesArmenian[i],
+                    Name = productTypeNamesArmenian[i],
                     CreatedDate = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                     ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                     IsDeleted = false,

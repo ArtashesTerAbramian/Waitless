@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Waitless.DAL.Configurations;
 
-public class BeverageTranslationConfiguration : BaseConfiguration<ProductTranslation>
+public class ProductTranslationConfiguration : BaseConfiguration<ProductTranslation>
 {
     public override void Configure(EntityTypeBuilder<ProductTranslation> builder)
     {
         base.Configure(builder);
 
-        builder.ToTable("beverage_translation");
+        builder.ToTable("product_translation");
 
         builder.Property(x => x.Name)
             .HasMaxLength(256)

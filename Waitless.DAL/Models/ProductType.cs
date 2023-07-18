@@ -1,11 +1,11 @@
 namespace Waitless.DAL.Models;
 
-public class BeverageType : BaseEntity
+public class ProductType : BaseEntity
 {
-    public BeverageType()
+    public ProductType()
     {
-        Translations = new HashSet<BeverageTypeTranslation>();
+        Translations = new HashSet<ProductTypeTranslation>();
     }
     
-    public ICollection<BeverageTypeTranslation> Translations { get; set; }
+    public ICollection<ProductTypeTranslation> Translations { get; set; }
 }

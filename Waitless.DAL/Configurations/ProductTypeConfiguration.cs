@@ -4,12 +4,12 @@ using Waitless.DAL.Models;
 
 namespace Waitless.DAL.Configurations;
 
-public class BeverageTypeConfiguration : BaseConfiguration<ProductType>
+public class ProductTypeConfiguration : BaseConfiguration<ProductType>
 {
     public override void Configure(EntityTypeBuilder<ProductType> builder)
     {
         base.Configure(builder);
 
-        builder.ToTable("beverage_type");
+        builder.ToTable("product_type");
     }
 }

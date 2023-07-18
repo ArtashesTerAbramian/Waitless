@@ -11,37 +11,6 @@ namespace Waitless.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "beverage_size",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    size_enum = table.Column<int>(type: "integer", nullable: false),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_beverage_size", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "beverage_type",
-                columns: table => new
-                {
-                    id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_beverage_type", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "error",
                 columns: table => new
                 {
@@ -80,6 +49,37 @@ namespace Waitless.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "product_size",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    size_enum = table.Column<int>(type: "integer", nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_product_size", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "product_type",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_product_type", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "provinces",
                 columns: table => new
                 {
@@ -114,12 +114,12 @@ namespace Waitless.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "beverage_size_translation",
+                name: "product_size_translation",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    beverage_size_id = table.Column<long>(type: "bigint", nullable: false),
+                    product_size_id = table.Column<long>(type: "bigint", nullable: false),
                     size = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -128,23 +128,23 @@ namespace Waitless.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_beverage_size_translation", x => x.id);
+                    table.PrimaryKey("pk_product_size_translation", x => x.id);
                     table.ForeignKey(
-                        name: "fk_beverage_size_translation_beverage_size_beverage_size_id",
-                        column: x => x.beverage_size_id,
-                        principalTable: "beverage_size",
+                        name: "fk_product_size_translation_product_size_product_size_id",
+                        column: x => x.product_size_id,
+                        principalTable: "product_size",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "beverage",
+                name: "product",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    beverage_type_id = table.Column<long>(type: "bigint", nullable: true),
-                    beverage_size_id = table.Column<long>(type: "bigint", nullable: true),
+                    product_type_id = table.Column<long>(type: "bigint", nullable: true),
+                    product_size_id = table.Column<long>(type: "bigint", nullable: true),
                     price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -152,29 +152,29 @@ namespace Waitless.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_beverage", x => x.id);
+                    table.PrimaryKey("pk_product", x => x.id);
                     table.ForeignKey(
-                        name: "fk_beverage_beverage_size_beverage_size_id",
-                        column: x => x.beverage_size_id,
-                        principalTable: "beverage_size",
+                        name: "fk_product_product_size_product_size_id",
+                        column: x => x.product_size_id,
+                        principalTable: "product_size",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "fk_beverage_beverage_types_beverage_type_id",
-                        column: x => x.beverage_type_id,
-                        principalTable: "beverage_type",
+                        name: "fk_product_product_types_product_type_id",
+                        column: x => x.product_type_id,
+                        principalTable: "product_type",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "beverage_type_translation",
+                name: "product_type_translation",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    product_type_id = table.Column<long>(type: "bigint", nullable: false),
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    beverage_type_id = table.Column<long>(type: "bigint", nullable: true),
                     created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
@@ -182,11 +182,11 @@ namespace Waitless.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_beverage_type_translation", x => x.id);
+                    table.PrimaryKey("pk_product_type_translation", x => x.id);
                     table.ForeignKey(
-                        name: "fk_beverage_type_translation_beverage_type_beverage_type_id",
-                        column: x => x.beverage_type_id,
-                        principalTable: "beverage_type",
+                        name: "fk_product_type_translation_product_type_product_type_id",
+                        column: x => x.product_type_id,
+                        principalTable: "product_type",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -238,6 +238,29 @@ namespace Waitless.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "cart",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    total_price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_cart", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_cart_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "user_session",
                 columns: table => new
                 {
@@ -262,12 +285,12 @@ namespace Waitless.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "beverage_photo",
+                name: "product_photo",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    beverage_id = table.Column<long>(type: "bigint", nullable: false),
+                    product_id = table.Column<long>(type: "bigint", nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false),
@@ -275,21 +298,21 @@ namespace Waitless.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_beverage_photo", x => x.id);
+                    table.PrimaryKey("pk_product_photo", x => x.id);
                     table.ForeignKey(
-                        name: "fk_beverage_photo_beverage_beverage_id",
-                        column: x => x.beverage_id,
-                        principalTable: "beverage",
+                        name: "fk_product_photo_product_product_id",
+                        column: x => x.product_id,
+                        principalTable: "product",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "beverage_translation",
+                name: "product_translation",
                 columns: table => new
                 {
                     language_id = table.Column<int>(type: "integer", nullable: false),
-                    beverage_id = table.Column<long>(type: "bigint", nullable: false),
+                    product_id = table.Column<long>(type: "bigint", nullable: false),
                     name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     description = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     id = table.Column<long>(type: "bigint", nullable: false),
@@ -299,11 +322,11 @@ namespace Waitless.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_beverage_translation", x => new { x.language_id, x.beverage_id });
+                    table.PrimaryKey("pk_product_translation", x => new { x.language_id, x.product_id });
                     table.ForeignKey(
-                        name: "fk_beverage_translation_beverage_beverage_id",
-                        column: x => x.beverage_id,
-                        principalTable: "beverage",
+                        name: "fk_product_translation_product_product_id",
+                        column: x => x.product_id,
+                        principalTable: "product",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -380,16 +403,6 @@ namespace Waitless.DAL.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "beverage_size",
-                columns: new[] { "id", "created_date", "is_deleted", "modify_date", "size_enum" },
-                values: new object[,]
-                {
-                    { 1L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 1 },
-                    { 2L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 2 },
-                    { 3L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 3 }
-                });
-
-            migrationBuilder.InsertData(
                 table: "error",
                 columns: new[] { "id", "created_date", "is_deleted", "modify_date", "name" },
                 values: new object[,]
@@ -405,6 +418,28 @@ namespace Waitless.DAL.Migrations
                     { 9L, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Error. This component cannot be deleted." },
                     { 10L, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "The specified email address is already taken." },
                     { 11L, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Total error." }
+                });
+
+            migrationBuilder.InsertData(
+                table: "product_size",
+                columns: new[] { "id", "created_date", "is_deleted", "modify_date", "size_enum" },
+                values: new object[,]
+                {
+                    { 1L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 1 },
+                    { 2L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 2 },
+                    { 3L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "product_type",
+                columns: new[] { "id", "created_date", "is_deleted", "modify_date" },
+                values: new object[,]
+                {
+                    { 1L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { 2L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { 3L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { 4L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { 5L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc) }
                 });
 
             migrationBuilder.InsertData(
@@ -429,22 +464,6 @@ namespace Waitless.DAL.Migrations
                 table: "users",
                 columns: new[] { "id", "created_date", "email", "is_deleted", "modify_date", "password_hash", "phone", "user_name" },
                 values: new object[] { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@mail.com", false, null, "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=", "32423", "admin" });
-
-            migrationBuilder.InsertData(
-                table: "beverage_size_translation",
-                columns: new[] { "id", "beverage_size_id", "created_date", "is_deleted", "language_id", "modify_date", "size" },
-                values: new object[,]
-                {
-                    { 1L, 1L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 1, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Small" },
-                    { 2L, 1L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 2, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Маленький" },
-                    { 3L, 1L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Փոքր" },
-                    { 4L, 2L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 1, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Medium" },
-                    { 5L, 2L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 2, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Средний" },
-                    { 6L, 2L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Միջին" },
-                    { 7L, 3L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 1, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Large" },
-                    { 8L, 3L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 2, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Большой" },
-                    { 9L, 3L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Մեծ" }
-                });
 
             migrationBuilder.InsertData(
                 table: "city",
@@ -520,6 +539,44 @@ namespace Waitless.DAL.Migrations
                     { 67L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 4L },
                     { 68L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 4L },
                     { 69L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 4L }
+                });
+
+            migrationBuilder.InsertData(
+                table: "product_size_translation",
+                columns: new[] { "id", "created_date", "is_deleted", "language_id", "modify_date", "product_size_id", "size" },
+                values: new object[,]
+                {
+                    { 1L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 1, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 1L, "Small" },
+                    { 2L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 2, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 1L, "Маленький" },
+                    { 3L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 1L, "Փոքր" },
+                    { 4L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 1, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 2L, "Medium" },
+                    { 5L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 2, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 2L, "Средний" },
+                    { 6L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 2L, "Միջին" },
+                    { 7L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 1, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 3L, "Large" },
+                    { 8L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 2, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 3L, "Большой" },
+                    { 9L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), 3L, "Մեծ" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "product_type_translation",
+                columns: new[] { "id", "created_date", "is_deleted", "language_id", "modify_date", "name", "product_type_id" },
+                values: new object[,]
+                {
+                    { 1L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 1, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Coffee", 1L },
+                    { 2L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 2, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Кофе", 1L },
+                    { 3L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Սուրճ", 1L },
+                    { 4L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 1, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Tea", 2L },
+                    { 5L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 2, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Чай", 2L },
+                    { 6L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Թեյ", 2L },
+                    { 7L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 1, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Smoothie", 3L },
+                    { 8L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 2, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Смузи", 3L },
+                    { 9L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Սմուզի", 3L },
+                    { 10L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 1, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Lemonade", 4L },
+                    { 11L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 2, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Лимонад", 4L },
+                    { 12L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Լիմոնադ", 4L },
+                    { 13L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 1, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Juice", 5L },
+                    { 14L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 2, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Сок", 5L },
+                    { 15L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Ջուս", 5L }
                 });
 
             migrationBuilder.InsertData(
@@ -807,104 +864,19 @@ namespace Waitless.DAL.Migrations
                 column: "is_deleted");
 
             migrationBuilder.CreateIndex(
-                name: "ix_beverage_beverage_size_id",
-                table: "beverage",
-                column: "beverage_size_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_beverage_type_id",
-                table: "beverage",
-                column: "beverage_type_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_created_date",
-                table: "beverage",
+                name: "ix_cart_created_date",
+                table: "cart",
                 column: "created_date");
 
             migrationBuilder.CreateIndex(
-                name: "ix_beverage_is_deleted",
-                table: "beverage",
+                name: "ix_cart_is_deleted",
+                table: "cart",
                 column: "is_deleted");
 
             migrationBuilder.CreateIndex(
-                name: "ix_beverage_photo_beverage_id",
-                table: "beverage_photo",
-                column: "beverage_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_photo_created_date",
-                table: "beverage_photo",
-                column: "created_date");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_photo_is_deleted",
-                table: "beverage_photo",
-                column: "is_deleted");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_size_created_date",
-                table: "beverage_size",
-                column: "created_date");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_size_is_deleted",
-                table: "beverage_size",
-                column: "is_deleted");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_size_translation_beverage_size_id",
-                table: "beverage_size_translation",
-                column: "beverage_size_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_size_translation_created_date",
-                table: "beverage_size_translation",
-                column: "created_date");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_size_translation_is_deleted",
-                table: "beverage_size_translation",
-                column: "is_deleted");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_translation_beverage_id",
-                table: "beverage_translation",
-                column: "beverage_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_translation_created_date",
-                table: "beverage_translation",
-                column: "created_date");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_translation_is_deleted",
-                table: "beverage_translation",
-                column: "is_deleted");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_type_created_date",
-                table: "beverage_type",
-                column: "created_date");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_type_is_deleted",
-                table: "beverage_type",
-                column: "is_deleted");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_type_translation_beverage_type_id",
-                table: "beverage_type_translation",
-                column: "beverage_type_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_type_translation_created_date",
-                table: "beverage_type_translation",
-                column: "created_date");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_beverage_type_translation_is_deleted",
-                table: "beverage_type_translation",
-                column: "is_deleted");
+                name: "ix_cart_user_id",
+                table: "cart",
+                column: "user_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_city_created_date",
@@ -960,6 +932,106 @@ namespace Waitless.DAL.Migrations
                 name: "ix_orders_is_deleted",
                 table: "orders",
                 column: "is_deleted");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_created_date",
+                table: "product",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_is_deleted",
+                table: "product",
+                column: "is_deleted");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_product_size_id",
+                table: "product",
+                column: "product_size_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_product_type_id",
+                table: "product",
+                column: "product_type_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_photo_created_date",
+                table: "product_photo",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_photo_is_deleted",
+                table: "product_photo",
+                column: "is_deleted");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_photo_product_id",
+                table: "product_photo",
+                column: "product_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_size_created_date",
+                table: "product_size",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_size_is_deleted",
+                table: "product_size",
+                column: "is_deleted");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_size_translation_created_date",
+                table: "product_size_translation",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_size_translation_is_deleted",
+                table: "product_size_translation",
+                column: "is_deleted");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_size_translation_product_size_id",
+                table: "product_size_translation",
+                column: "product_size_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_translation_created_date",
+                table: "product_translation",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_translation_is_deleted",
+                table: "product_translation",
+                column: "is_deleted");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_translation_product_id",
+                table: "product_translation",
+                column: "product_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_type_created_date",
+                table: "product_type",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_type_is_deleted",
+                table: "product_type",
+                column: "is_deleted");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_type_translation_created_date",
+                table: "product_type_translation",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_type_translation_is_deleted",
+                table: "product_type_translation",
+                column: "is_deleted");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_type_translation_product_type_id",
+                table: "product_type_translation",
+                column: "product_type_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_province_translation_created_date",
@@ -1030,16 +1102,7 @@ namespace Waitless.DAL.Migrations
                 name: "address_translation");
 
             migrationBuilder.DropTable(
-                name: "beverage_photo");
-
-            migrationBuilder.DropTable(
-                name: "beverage_size_translation");
-
-            migrationBuilder.DropTable(
-                name: "beverage_translation");
-
-            migrationBuilder.DropTable(
-                name: "beverage_type_translation");
+                name: "cart");
 
             migrationBuilder.DropTable(
                 name: "city_translation");
@@ -1051,6 +1114,18 @@ namespace Waitless.DAL.Migrations
                 name: "orders");
 
             migrationBuilder.DropTable(
+                name: "product_photo");
+
+            migrationBuilder.DropTable(
+                name: "product_size_translation");
+
+            migrationBuilder.DropTable(
+                name: "product_translation");
+
+            migrationBuilder.DropTable(
+                name: "product_type_translation");
+
+            migrationBuilder.DropTable(
                 name: "province_translation");
 
             migrationBuilder.DropTable(
@@ -1060,7 +1135,7 @@ namespace Waitless.DAL.Migrations
                 name: "address");
 
             migrationBuilder.DropTable(
-                name: "beverage");
+                name: "product");
 
             migrationBuilder.DropTable(
                 name: "users");
@@ -1069,10 +1144,10 @@ namespace Waitless.DAL.Migrations
                 name: "city");
 
             migrationBuilder.DropTable(
-                name: "beverage_size");
+                name: "product_size");
 
             migrationBuilder.DropTable(
-                name: "beverage_type");
+                name: "product_type");
 
             migrationBuilder.DropTable(
                 name: "provinces");

@@ -1,6 +1,6 @@
 ﻿namespace Waitless.DAL.Models;
 
-public class CartBeverage : BaseEntity
+public class CartProduct : BaseEntity
 {
     public long ProductId { get; set; }
     public long CartId { get; set; }

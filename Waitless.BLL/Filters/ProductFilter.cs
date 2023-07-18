@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Waitless.BLL.Filters
 {
-    public class BeverageFilter : BaseFilter<Product>
+    public class ProductFilter : BaseFilter<Product>
     {
         public string? Name { get; set; }
         
