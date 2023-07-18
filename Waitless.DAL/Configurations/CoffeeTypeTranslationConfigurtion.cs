@@ -16,6 +16,6 @@
 //             .HasMaxLength(256)
 //             .IsRequired();
 //
-//         builder.HasIndex(x => new { x.BeverageTypeId, x.LanguageId });
+//         builder.HasIndex(x => new { x.ProductTypeId, x.LanguageId });
 //     }
 // }

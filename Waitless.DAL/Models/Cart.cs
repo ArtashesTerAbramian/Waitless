@@ -4,13 +4,13 @@ public class Cart : BaseEntity
 {
     public Cart()
     {
-        Beverages = new HashSet<CartBeverage>();
+        Products = new HashSet<CartProduct>();
     }
     public long UserId { get; set; }
     public decimal TotalPrice { get; set; }
    
 
-    public ICollection<CartBeverage> Beverages { get; set; }
+    public ICollection<CartProduct> Products { get; set; }
 
     public User User { get; set; }
 
@@ -19,6 +19,6 @@ public class Cart : BaseEntity
         var cart = obj as Cart;
 
         return UserId == cart.UserId
-            && Beverages.SequenceEqual(cart.Beverages);
+            && Products.SequenceEqual(cart.Products);
     }
 }

@@ -8,8 +8,7 @@ using Waitless.BLL.Services.LanguageService;
 using Waitless.BLL.Helpers;
 using Waitless.BLL.Models;
 using Waitless.BLL.Services.AddressService;
-using Waitless.BLL.Services.BeverageService;
-// using Waitless.BLL.Services.BeverageTypeService;
+using Waitless.BLL.Services.ProductService;
 using Waitless.BLL.Services.CityService;
 using Waitless.BLL.Services.UserService;
 using Waitless.BLL.Services.ProvinceService;
@@ -30,8 +29,7 @@ public static class ServiceExtension
         services.AddScoped<ILanguageService, LanguageService>();
 
         services.AddScoped<IErrorService, ErrorService>();
-        // services.AddScoped<ICoffeeTypeService, CoffeeTypeService>();
-        services.AddScoped<IBeverageService, BeverageService>();
+        services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IUserSessionService, UserSessionService>();
         services.AddScoped<IProvinceService, ProvinceService>();

@@ -20,12 +20,11 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Error> Errors { get; set; }
-    // public DbSet<CoffeeType> CoffeeTypes { get; set; }
-    public DbSet<Beverage> Beverage { get; set; }
-    public DbSet<BeverageTranslation> BeverageTranslations { get; set; }
-    public DbSet<BeveragePhoto> CoffeePhotos { get; set; }
-    public DbSet<BeverageType> BeverageTypes { get; set; }
-    public DbSet<BeverageTypeTranslation> BeverageTypeTranslations { get; set; }
+    public DbSet<Product> Product { get; set; }
+    public DbSet<ProductTranslation> ProductTranslations { get; set; }
+    public DbSet<ProductPhoto> ProductPhotos { get; set; }
+    public DbSet<ProductType> ProductTypes { get; set; }
+    public DbSet<ProductTypeTranslation> ProductTypeTranslations { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<UserSession> UserSessions { get; set; }
     public DbSet<Address> Addresses { get; set; }
@@ -36,7 +35,7 @@ public class AppDbContext : DbContext
     public DbSet<ProvinceTranslation> ProvinceTranslations { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Cart> Carts { get; set; }
-    public DbSet<CartBeverage> CartBeverages { get; set; }
+    public DbSet<CartProduct> CartProducts { get; set; }
 
     public override int SaveChanges()
     {

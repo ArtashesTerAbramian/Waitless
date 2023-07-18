@@ -117,7 +117,7 @@ namespace Waitless.DAL.Migrations
                     b.ToTable("address_translation", (string)null);
                 });
 
-            modelBuilder.Entity("Waitless.DAL.Models.Beverage", b =>
+            modelBuilder.Entity("Waitless.DAL.Models.Product", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -126,11 +126,11 @@ namespace Waitless.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("BeverageSizeId")
+                    b.Property<long?>("ProductSizeId")
                         .HasColumnType("bigint")
                         .HasColumnName("beverage_size_id");
 
-                    b.Property<long?>("BeverageTypeId")
+                    b.Property<long?>("ProductTypeId")
                         .HasColumnType("bigint")
                         .HasColumnName("beverage_type_id");
 
@@ -153,10 +153,10 @@ namespace Waitless.DAL.Migrations
                     b.HasKey("Id")
                         .HasName("pk_beverage");
 
-                    b.HasIndex("BeverageSizeId")
+                    b.HasIndex("ProductSizeId")
                         .HasDatabaseName("ix_beverage_beverage_size_id");
 
-                    b.HasIndex("BeverageTypeId")
+                    b.HasIndex("ProductTypeId")
                         .HasDatabaseName("ix_beverage_beverage_type_id");
 
                     b.HasIndex("CreatedDate")
@@ -177,7 +177,7 @@ namespace Waitless.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("BeverageId")
+                    b.Property<long>("ProductId")
                         .HasColumnType("bigint")
                         .HasColumnName("beverage_id");
 
@@ -202,7 +202,7 @@ namespace Waitless.DAL.Migrations
                     b.HasKey("Id")
                         .HasName("pk_beverage_photo");
 
-                    b.HasIndex("BeverageId")
+                    b.HasIndex("ProductId")
                         .HasDatabaseName("ix_beverage_photo_beverage_id");
 
                     b.HasIndex("CreatedDate")
@@ -214,7 +214,7 @@ namespace Waitless.DAL.Migrations
                     b.ToTable("beverage_photo", (string)null);
                 });
 
-            modelBuilder.Entity("Waitless.DAL.Models.BeverageSize", b =>
+            modelBuilder.Entity("Waitless.DAL.Models.ProductSize", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -286,7 +286,7 @@ namespace Waitless.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("BeverageSizeId")
+                    b.Property<long>("ProductSizeId")
                         .HasColumnType("bigint")
                         .HasColumnName("beverage_size_id");
 
@@ -315,7 +315,7 @@ namespace Waitless.DAL.Migrations
                     b.HasKey("Id")
                         .HasName("pk_beverage_size_translation");
 
-                    b.HasIndex("BeverageSizeId")
+                    b.HasIndex("ProductSizeId")
                         .HasDatabaseName("ix_beverage_size_translation_beverage_size_id");
 
                     b.HasIndex("CreatedDate")
@@ -425,7 +425,7 @@ namespace Waitless.DAL.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("language_id");
 
-                    b.Property<long>("BeverageId")
+                    b.Property<long>("ProductId")
                         .HasColumnType("bigint")
                         .HasColumnName("beverage_id");
 
@@ -457,10 +457,10 @@ namespace Waitless.DAL.Migrations
                         .HasColumnType("character varying(256)")
                         .HasColumnName("name");
 
-                    b.HasKey("LanguageId", "BeverageId")
+                    b.HasKey("LanguageId", "ProductId")
                         .HasName("pk_beverage_translation");
 
-                    b.HasIndex("BeverageId")
+                    b.HasIndex("ProductId")
                         .HasDatabaseName("ix_beverage_translation_beverage_id");
 
                     b.HasIndex("CreatedDate")
@@ -472,7 +472,7 @@ namespace Waitless.DAL.Migrations
                     b.ToTable("beverage_translation", (string)null);
                 });
 
-            modelBuilder.Entity("Waitless.DAL.Models.BeverageType", b =>
+            modelBuilder.Entity("Waitless.DAL.Models.ProductType", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -551,7 +551,7 @@ namespace Waitless.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("BeverageTypeId")
+                    b.Property<long>("ProductTypeId")
                         .HasColumnType("bigint")
                         .HasColumnName("beverage_type_id");
 
@@ -580,7 +580,7 @@ namespace Waitless.DAL.Migrations
                     b.HasKey("Id")
                         .HasName("pk_beverage_type_translation");
 
-                    b.HasIndex("BeverageTypeId")
+                    b.HasIndex("ProductTypeId")
                         .HasDatabaseName("ix_beverage_type_translation_beverage_type_id");
 
                     b.HasIndex("CreatedDate")
@@ -4342,71 +4342,71 @@ namespace Waitless.DAL.Migrations
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("Waitless.DAL.Models.Beverage", b =>
+            modelBuilder.Entity("Waitless.DAL.Models.Product", b =>
                 {
-                    b.HasOne("Waitless.DAL.Models.BeverageSize", "BeverageSize")
+                    b.HasOne("Waitless.DAL.Models.ProductSize", "ProductSize")
                         .WithMany()
-                        .HasForeignKey("BeverageSizeId")
+                        .HasForeignKey("ProductSizeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("fk_beverage_beverage_size_beverage_size_id");
 
-                    b.HasOne("Waitless.DAL.Models.BeverageType", "BeverageType")
+                    b.HasOne("Waitless.DAL.Models.ProductType", "ProductType")
                         .WithMany()
-                        .HasForeignKey("BeverageTypeId")
+                        .HasForeignKey("ProductTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("fk_beverage_beverage_types_beverage_type_id");
 
-                    b.Navigation("BeverageSize");
+                    b.Navigation("ProductSize");
 
-                    b.Navigation("BeverageType");
+                    b.Navigation("ProductType");
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.BeveragePhoto", b =>
                 {
-                    b.HasOne("Waitless.DAL.Models.Beverage", "Beverage")
+                    b.HasOne("Waitless.DAL.Models.Product", "Product")
                         .WithMany("Files")
-                        .HasForeignKey("BeverageId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_beverage_photo_beverage_beverage_id");
 
-                    b.Navigation("Beverage");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.BeverageSizeTranslation", b =>
                 {
-                    b.HasOne("Waitless.DAL.Models.BeverageSize", "BeverageSize")
+                    b.HasOne("Waitless.DAL.Models.ProductSize", "ProductSize")
                         .WithMany("Translations")
-                        .HasForeignKey("BeverageSizeId")
+                        .HasForeignKey("ProductSizeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_beverage_size_translation_beverage_size_beverage_size_id");
 
-                    b.Navigation("BeverageSize");
+                    b.Navigation("ProductSize");
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.BeverageTranslation", b =>
                 {
-                    b.HasOne("Waitless.DAL.Models.Beverage", "Beverage")
+                    b.HasOne("Waitless.DAL.Models.Product", "Product")
                         .WithMany("Translations")
-                        .HasForeignKey("BeverageId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_beverage_translation_beverage_beverage_id");
 
-                    b.Navigation("Beverage");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.BeverageTypeTranslation", b =>
                 {
-                    b.HasOne("Waitless.DAL.Models.BeverageType", "BeverageType")
+                    b.HasOne("Waitless.DAL.Models.ProductType", "ProductType")
                         .WithMany("Translations")
-                        .HasForeignKey("BeverageTypeId")
+                        .HasForeignKey("ProductTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_beverage_type_translation_beverage_type_beverage_type_id");
 
-                    b.Navigation("BeverageType");
+                    b.Navigation("ProductType");
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.Cart", b =>
@@ -4474,19 +4474,19 @@ namespace Waitless.DAL.Migrations
                     b.Navigation("Translations");
                 });
 
-            modelBuilder.Entity("Waitless.DAL.Models.Beverage", b =>
+            modelBuilder.Entity("Waitless.DAL.Models.Product", b =>
                 {
                     b.Navigation("Files");
 
                     b.Navigation("Translations");
                 });
 
-            modelBuilder.Entity("Waitless.DAL.Models.BeverageSize", b =>
+            modelBuilder.Entity("Waitless.DAL.Models.ProductSize", b =>
                 {
                     b.Navigation("Translations");
                 });
 
-            modelBuilder.Entity("Waitless.DAL.Models.BeverageType", b =>
+            modelBuilder.Entity("Waitless.DAL.Models.ProductType", b =>
                 {
                     b.Navigation("Translations");
                 });

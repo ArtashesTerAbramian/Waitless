@@ -10,11 +10,10 @@ internal static class MainSeeder
     public static void SeedData(this ModelBuilder modelBuilder)
     {
         ErrorSeeder.SeedData(modelBuilder);
-        // CoffeeTypeSeeder.SeedData(modelBuilder);
         ProvinceSeeder.SeedData(modelBuilder);
         CitySeeder.SeedData(modelBuilder);
-        BeverageSizeSeeder.SeedData(modelBuilder);
+        ProductSizeSeeder.SeedData(modelBuilder);
         UserSeeder.SeedData(modelBuilder);
-        BeverageTypeSeeder.SeedData(modelBuilder);
+        ProductTypeSeeder.SeedData(modelBuilder);
     }
 }

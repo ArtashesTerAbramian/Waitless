@@ -25,9 +25,9 @@ public class CartService : ICartService
         var cart = new Cart()
         {
             UserId = dto.UserId,
-            Beverages = dto.BeverageIds.Select(x => new CartBeverage()
+            Products = dto.ProductIds.Select(x => new CartProduct()
             {
-                BeverageId = x
+                ProductId = x
             }).ToList()
         };
 
@@ -47,7 +47,7 @@ public class CartService : ICartService
     public async Task<PagedResult<List<CartDto>>> GetAll(CartFilter filter)
     {
         var query = _db.Carts
-            .Include(x => x.Beverages);
+            .Include(x => x.Products);
 
         var carts = await filter.FilterObjects(query).ToListAsync();
 
@@ -77,9 +77,9 @@ public class CartService : ICartService
             return Result.NotFound();
         }
 
-        cart.Beverages = dto.Beverages.Select(x => new CartBeverage()
+        cart.Products = dto.Products.Select(x => new CartProduct()
         {
-            BeverageId = x,
+            ProductId = x,
             CartId = cart.Id
         }).ToList();
 

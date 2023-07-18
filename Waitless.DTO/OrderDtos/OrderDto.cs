@@ -8,7 +8,7 @@ public class OrderDto : BaseEntity
 {
     public OrderDto()
     {
-        Beverages = new HashSet<Beverage>();
+        Products = new HashSet<Product>();
     }
     public long UserId { get; set; }
     public long AddressId { get; set; }
@@ -18,5 +18,5 @@ public class OrderDto : BaseEntity
     public bool IsReady { get; set; }
     public decimal? TotalPrice{ get; set; }
 
-    public ICollection<Beverage> Beverages { get; set; }
+    public ICollection<Product> Products { get; set; }
 }

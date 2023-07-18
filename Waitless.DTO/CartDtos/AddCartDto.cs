@@ -6,5 +6,5 @@ public class AddCartDto
 {
     public long UserId { get; set; }
     public decimal TotalPrice { get; set; }
-    public List<long> BeverageIds { get; set; }
+    public List<long> ProductIds { get; set; }
 }

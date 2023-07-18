@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Waitless.BLL.Filters;
 using Waitless.BLL.Services.CartService;
-using Waitless.DTO.BeverageDtos;
+using Waitless.DTO.ProductDtos;
 using Waitless.Dto;
 using Waitless.DTO.CartDtos;
 

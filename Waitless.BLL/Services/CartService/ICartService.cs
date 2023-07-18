@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using Waitless.BLL.Filters;
-using Waitless.DTO.BeverageDtos;
+using Waitless.DTO.ProductDtos;
 using Waitless.DTO.CartDtos;
 
 namespace Waitless.BLL.Services.CartService;

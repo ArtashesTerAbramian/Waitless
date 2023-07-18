@@ -97,7 +97,7 @@ public class OrderService : IOrderService
         }
 
         order.AddressId = dto.AddressId;
-        order.CoffeeIds = dto.CoffeeIds;
+        order.CoffeeIds = dto.ProductIds;
         order.BeReadyOn = dto.BeReadyOn;
         order.Instruction = dto.Instruction;
         order.TimingType = dto.OrderTimingType;
