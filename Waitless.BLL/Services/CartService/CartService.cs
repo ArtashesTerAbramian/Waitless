@@ -65,11 +65,6 @@ public class CartService : ICartService
         return Result.Success();
     }
 
-    public Task<Result> Delete(long id)
-    {
-        throw new NotImplementedException("No need to delete anything from cart");
-    }
-
     public async Task<PagedResult<List<CartDto>>> GetAll(CartFilter filter)
     {
         var query = _db.Carts

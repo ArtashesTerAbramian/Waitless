@@ -46,10 +46,4 @@ public class CartController : ApiControllerBase
     {
         return await _cartService.Update(dto);
     }
-
-    [HttpPost("delete")]
-    public async Task<Result> Delete(BaseDto dto)
-    {
-        return await _cartService.Delete(dto.Id);
-    }
 }

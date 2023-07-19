@@ -8,6 +8,7 @@ using Waitless.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
 using Waitless.DTO.ProductDtos;
+using System.Linq;
 
 namespace Waitless.BLL.Services.ProductService;
 
@@ -29,7 +30,7 @@ public class ProductService : IProductService
 
         var coffee = new Product()
         {
-            // ProductTypeId = dto.ProductTypeId ?? null,
+            ProductTypeId = dto.ProductTypeId ?? null,
             ProductSizeId = dto.ProductSizeId ?? null,
             Price = dto.Price,
             Translations = dto.Translations.Select(x => new ProductTranslation()
@@ -44,7 +45,7 @@ public class ProductService : IProductService
 
         await _db.SaveChangesAsync();
 
-        if (dto.File is { })
+        if (dto.File is not null)
         {
             var folderName = coffee.Translations.First(x => x.LanguageId == (int)LanguageEnum.English).Name;
 
@@ -152,10 +153,10 @@ public class ProductService : IProductService
             }
         }
 
-        if (dto.Photo is {})
+        if (dto.Photo is not null)
         {
             var oldPhoto = product.Files.FirstOrDefault();
-            if (oldPhoto is {})
+            if (oldPhoto is not null)
             {
                 oldPhoto.IsDeleted = true;
             }
@@ -178,10 +179,9 @@ public class ProductService : IProductService
         return Result.Success();
     }
 
-
     public async Task<decimal> PriceSumAsync(List<long> ids)
     {
-        return await _db.Product.Select(x => x.Price).SumAsync(); 
+        return await _db.Product.Where(x => ids.Contains(x.Id)).Select(x => x.Price).SumAsync(); 
     }
 
 }
