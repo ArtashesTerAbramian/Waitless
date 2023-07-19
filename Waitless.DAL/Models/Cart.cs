@@ -13,12 +13,4 @@ public class Cart : BaseEntity
     public ICollection<CartProduct> Products { get; set; }
 
     public User User { get; set; }
-
-    public override bool Equals(object obj)
-    {
-        var cart = obj as Cart;
-
-        return UserId == cart.UserId
-            && Products.SequenceEqual(cart.Products);
-    }
 }

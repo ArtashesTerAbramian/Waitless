@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
 using Waitless.BLL.Filters;
+using Waitless.BLL.Helpers;
 using Waitless.BLL.Mappers;
 using Waitless.BLL.Services.ProductService;
 using Waitless.DAL;
@@ -22,7 +23,6 @@ public class CartService : ICartService
         _productService = productService;
     }
 
-    // shoudl add logic for cartProducts 
     public async Task<Result> Add(AddCartDto dto)
     {
         using TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
@@ -38,35 +38,31 @@ public class CartService : ICartService
 
         cart.TotalPrice = await _productService.PriceSumAsync(dto.ProductIds);
 
+        var userCart = await _db.Carts
+            .Include(x => x.Products)
+            .FirstOrDefaultAsync(x => x.UserId == cart.UserId);
+        if (userCart is not null)
+        {
+            CartProductsComparer comparer = new CartProductsComparer();
+
+            bool areEqual = Enumerable.SequenceEqual(cart.Products, userCart?.Products, comparer);
+
+
+            if (areEqual)
+            {
+                return Result.Success();
+            }
+
+            userCart.IsDeleted = true;
+        }
+
+
         await _db.Carts.AddAsync(cart);
         await _db.SaveChangesAsync();
-
-        RemoveUserOldCart(dto.UserId);
 
         scope.Complete();
 
         return Result.Success();
-    }
-
-    private async void RemoveUserOldCart(long userId)
-    {
-        var carts = await _db.Carts
-            .Include(x => x.Products)
-            .Where(x => x.UserId == userId
-                     && x.IsDeleted == false)
-            .OrderByDescending(x => x.Id)
-            .Skip(1).ToListAsync();
-
-        foreach (var cart in carts)
-        {
-            cart.IsDeleted = true;
-            foreach (var cartProd in cart.Products)
-            {
-                cartProd.IsDeleted = true;
-            }
-        }
-        await _db.SaveChangesAsync();
-        return;
     }
 
     public Task<Result> Delete(long id)
@@ -88,12 +84,24 @@ public class CartService : ICartService
     {
         var cart = await _db.Carts.FirstOrDefaultAsync(x => x.Id == id);
 
-        if(cart is null)
+        if (cart is null)
         {
             return Result.NotFound();
         }
 
         return cart.MapToCartDto();
+    }
+
+
+    public async Task<PagedResult<List<CartDto>>> GetByUserId(long id)
+    {
+        var cart = await _db.Carts
+            .Include(x => x.Products)
+            .Where(x => x.UserId == id)
+            .ToListAsync();
+
+        return new PagedResult<List<CartDto>>(
+            new PagedInfo(10, cart.Count, 10, cart.Count), cart.MapToCartsDtos());
     }
 
     public async Task<Result> Update(UpdateCartDto dto)
@@ -113,7 +121,7 @@ public class CartService : ICartService
             CartId = cart.Id
         }).ToList();
 
-        scope.Complete();   
+        scope.Complete();
 
         return Result.Success();
     }

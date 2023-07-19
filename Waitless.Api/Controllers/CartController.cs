@@ -29,6 +29,12 @@ public class CartController : ApiControllerBase
         return await _cartService.GetById(id);
     }
 
+    [HttpGet("get-by-user-id")]
+    public async Task<PagedResult<List<CartDto>>> GetByUserId(long id)
+    {
+        return await _cartService.GetByUserId(id);
+    }
+
     [HttpPost("add")]
     public async Task<Result> Add(AddCartDto dto)
     {

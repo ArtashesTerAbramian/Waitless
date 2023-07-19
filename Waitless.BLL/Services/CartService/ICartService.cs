@@ -11,5 +11,6 @@ public interface ICartService
     Task<Result> Delete(long id);
     Task<PagedResult<List<CartDto>>> GetAll(CartFilter filter);
     Task<Result<CartDto>> GetById(long id);
+    Task<PagedResult<List<CartDto>>> GetByUserId(long id);
     Task<Result> Update(UpdateCartDto dto);
 }
