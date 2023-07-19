@@ -6,10 +6,6 @@ namespace Waitless.DTO.OrderDtos;
 
 public class OrderDto : BaseEntity
 {
-    public OrderDto()
-    {
-        Products = new HashSet<Product>();
-    }
     public long UserId { get; set; }
     public long AddressId { get; set; }
     public string Instruction { get; set; }
@@ -17,6 +13,8 @@ public class OrderDto : BaseEntity
     public DateTime? BeReadyOn { get; set; }
     public bool IsReady { get; set; }
     public decimal? TotalPrice{ get; set; }
+    public OrderStateEnum OrderState { get; set; }
 
-    public ICollection<Product> Products { get; set; }
+    // todo Need to be changed to return ProductDto
+    public ICollection<OrderProductDto> OrderProducts { get; set; }
 }

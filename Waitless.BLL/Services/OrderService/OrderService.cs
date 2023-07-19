@@ -5,19 +5,23 @@ using Waitless.DAL;
 using Waitless.DAL.Enums;
 using Waitless.DAL.Models;
 using Waitless.DTO.OrderDtos;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
+using System.Reflection;
+using Waitless.BLL.Services.ProductService;
 
 namespace Waitless.BLL.Services.OrderService;
 
 public class OrderService : IOrderService
 {
     private readonly AppDbContext _db;
+    private readonly IProductService _productService;
 
-    public OrderService(AppDbContext db)
+    public OrderService(AppDbContext db,
+        IProductService productService)
     {
         _db = db;
+        _productService = productService;
     }
 
     public async Task<Result> AddOrderAsync(AddOrderDto dto)
@@ -28,11 +32,17 @@ public class OrderService : IOrderService
         {
             UserId = dto.UserId,
             AddressId = dto.AddressId,
-            CoffeeIds = dto.CoffeeIds,
             Instruction = dto.Instruction ?? string.Empty,
-            TimingType = dto.OrderTimingType,
-            BeReadyOn = dto.BeReadyOn
+            TimingType = dto.OrderTimingType ?? OrderTimingType.ASAP,
+            BeReadyOn = dto.BeReadyOn,
+            OrderState = OrderStateEnum.Placed,
+            OrderProducts = dto.ProductIds.Select(x => new OrderProduct()
+            {
+                ProductId = x
+            }).ToList()
         };
+
+        order.TotalPrice = await _productService.PriceSumAsync(dto.ProductIds);
 
         await _db.Orders.AddAsync(order);
         await _db.SaveChangesAsync();
@@ -42,16 +52,22 @@ public class OrderService : IOrderService
         return Result.Success();
     }
 
-    public async Task<Result> Delete(long id)
+    public async Task<Result> CancelOrderAsync(long id)
     {
-        var order = await _db.Orders.FirstOrDefaultAsync(x => x.Id == id);
+        var order = await _db.Orders
+            .FirstOrDefaultAsync(x => x.Id == id);
 
-        if(order is null) 
+        if (order is null || (order.OrderProducts is null && !order.OrderProducts.Any()))
         {
-            return Result.NotFound();
+            return Result.NotFound($"Order cannot be found: {MethodBase.GetCurrentMethod().Name}");
         }
 
-        order.IsDeleted = true;
+        if (order.OrderState == OrderStateEnum.InProgress)
+        {
+            return Result.Error("Your order already is in progress");
+        }
+
+        order.OrderState = OrderStateEnum.Cancelled;
 
         await _db.SaveChangesAsync();
 
@@ -60,7 +76,8 @@ public class OrderService : IOrderService
 
     public async Task<PagedResult<List<OrderDto>>> GetAllAsync(OrderFilter filter)
     {
-        var query = _db.Orders;
+        var query = _db.Orders
+            .Include(x => x.OrderProducts);
 
         var orders = await filter.FilterObjects(query).ToListAsync();
 
@@ -83,12 +100,15 @@ public class OrderService : IOrderService
     public async Task<Result> UpdateAsync(UpdateOrderDto dto)
     {
         var order = await _db.Orders
+            .Include(x => x.OrderProducts)
             .FirstOrDefaultAsync(x => x.Id == dto.Id);
 
         if(order is null)
         {
             return Result.NotFound();
         }
+
+        // todo can update some fields like Instruction, OrderTimingType
 
         TimeSpan elapsedTime = DateTime.UtcNow - order.CreatedDate;
         if (elapsedTime > TimeSpan.FromMinutes(5))
@@ -97,13 +117,43 @@ public class OrderService : IOrderService
         }
 
         order.AddressId = dto.AddressId;
-        order.CoffeeIds = dto.ProductIds;
         order.BeReadyOn = dto.BeReadyOn;
         order.Instruction = dto.Instruction;
         order.TimingType = dto.OrderTimingType;
+        order.OrderState = dto.OrderState;
+        order.OrderProducts = dto.ProductIds.Select(x => new OrderProduct()
+        {
+            ProductId = x
+        }).ToList();
 
         await _db.SaveChangesAsync();
     
+        return Result.Success();
+    }
+
+    public async Task<Result> UpdateOrderProductsAsync(UpdateOrderProductsDto dto)
+    {
+        var order = await _db.Orders
+            .Include(x => x.OrderProducts)
+            .FirstOrDefaultAsync(x => x.Id == dto.OrderId);
+
+        if (order is null || (order.OrderProducts is null && !order.OrderProducts.Any()))
+        {
+            return Result.NotFound($"Order cannot be found: {MethodBase.GetCurrentMethod().Name}");
+        }
+
+        if(order.OrderState == OrderStateEnum.InProgress)
+        {
+            return Result.Error("Your order already is in progress");
+        }
+
+        order.OrderProducts = dto.ProductIds.Select(x => new OrderProduct()
+        {
+            OrderId = dto.OrderId,
+            ProductId = x
+        }).ToList();
+        await _db.SaveChangesAsync();
+
         return Result.Success();
     }
 }

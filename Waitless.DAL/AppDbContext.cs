@@ -34,6 +34,7 @@ public class AppDbContext : DbContext
     public DbSet<Province> Provinces { get; set; }
     public DbSet<ProvinceTranslation> ProvinceTranslations { get; set; }
     public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderProduct> OrderProducts { get; set; }
     public DbSet<Cart> Carts { get; set; }
     public DbSet<CartProduct> CartProducts { get; set; }
 

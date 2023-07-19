@@ -15,7 +15,7 @@ public class AddOrderValidator : AbstractValidator<AddOrderDto>
             .NotNull()
             .NotEmpty();
 
-        RuleFor(x => x.CoffeeIds) 
+        RuleFor(x => x.ProductIds) 
             .NotNull()
             .NotEmpty();
     }

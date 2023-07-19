@@ -25,11 +25,6 @@ public class OrderConfiguration : BaseConfiguration<Order>
         builder.Property(x => x.UserId)
             .IsRequired();
 
-         /*builder
-             .HasMany(o => o.CoffeeIds)
-            .WithMany()  // Configure the many-to-many relationship with the appropriate navigation properties.
-            .UsingEntity(j => j.ToTable("OrderCoffee")); */
-        
         builder.HasIndex(x => new { x.AddressId, x.UserId });
     }
 }

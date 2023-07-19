@@ -13,4 +13,5 @@ public class UpdateOrderDto
     public string? Instruction { get; set; }
     public OrderTimingType? OrderTimingType { get; set; }
     public DateTime? BeReadyOn { get; set; }
+    public OrderStateEnum OrderState { get; set; }
 }

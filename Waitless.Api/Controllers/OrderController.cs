@@ -8,11 +8,11 @@ using Waitless.BLL.Filters;
 
 namespace Waitless.Api.Controllers;
 
-public class OrderServiceController : ApiControllerBase
+public class OrderController : ApiControllerBase
 {
     private readonly IOrderService _orderService;
 
-    public OrderServiceController(IOrderService orderService)
+    public OrderController(IOrderService orderService)
     {
         _orderService = orderService;
     }
@@ -42,9 +42,9 @@ public class OrderServiceController : ApiControllerBase
         return await _orderService.UpdateAsync(dto);
     }
 
-    [HttpPost("delete")]
-    public async Task<Result> Delete(BaseDto dto)
+    [HttpPost("update-order-by-order-id")]
+    public async Task<Result> Delete(UpdateOrderProductsDto dto)
     {
-        return await _orderService.Delete(dto.Id);
+        return await _orderService.UpdateOrderProductsAsync(dto);
     }
 }

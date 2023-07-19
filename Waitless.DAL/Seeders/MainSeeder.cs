@@ -15,5 +15,6 @@ internal static class MainSeeder
         ProductSizeSeeder.SeedData(modelBuilder);
         UserSeeder.SeedData(modelBuilder);
         ProductTypeSeeder.SeedData(modelBuilder);
+        AddressSeeder.SeedData(modelBuilder);
     }
 }

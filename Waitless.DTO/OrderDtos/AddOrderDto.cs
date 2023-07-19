@@ -8,8 +8,8 @@ public class AddOrderDto
 {
     public long UserId { get; set; }
     public long AddressId { get; set; }
-    public List<long> CoffeeIds { get; set; }
+    public List<long> ProductIds { get; set; }
     public string? Instruction { get; set; }
     public OrderTimingType? OrderTimingType { get; set; }
-    public DateTime? BeReadyOn { get; set; }
+    public DateTime? BeReadyOn { get; set; } = null;
 }

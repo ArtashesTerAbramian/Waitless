@@ -8,7 +8,6 @@ using Waitless.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
 using Waitless.DTO.ProductDtos;
-using System.Linq;
 
 namespace Waitless.BLL.Services.ProductService;
 

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Waitless.DAL;
@@ -11,9 +12,10 @@ using Waitless.DAL;
 namespace Waitless.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230719131702_order_products")]
+    partial class order_products
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,17 +67,6 @@ namespace Waitless.DAL.Migrations
                         .HasDatabaseName("ix_address_is_deleted");
 
                     b.ToTable("address", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            CityId = 1L,
-                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            ModifyDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            PostalCode = "0002"
-                        });
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.AddressTranslation", b =>
@@ -126,38 +117,6 @@ namespace Waitless.DAL.Migrations
                         .HasDatabaseName("ix_address_translation_is_deleted");
 
                     b.ToTable("address_translation", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1L,
-                            AddressId = 1L,
-                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 1,
-                            ModifyDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Street = "21 Mesrop Mashtots Ave"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            AddressId = 1L,
-                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 2,
-                            ModifyDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Street = "пр. Месропа Маштоца 21"
-                        },
-                        new
-                        {
-                            Id = 3L,
-                            AddressId = 1L,
-                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            LanguageId = 3,
-                            ModifyDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Street = "21 Մեսրոպ Մաշտոց պողոտա"
-                        });
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.Cart", b =>
