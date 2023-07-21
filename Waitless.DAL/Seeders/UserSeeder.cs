@@ -15,7 +15,9 @@ public class UserSeeder
             UserName = "admin",
             PasswordHash = passwordHash,
             Email = "admin@mail.com",
-            Phone = "32423"
+            Phone = "32423",
+            ActivationToken = default,
+            IsActive = false
         });
     }
 }

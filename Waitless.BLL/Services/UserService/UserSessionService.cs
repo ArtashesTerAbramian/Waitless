@@ -35,7 +35,7 @@ public class UserSessionService : IUserSessionService
             .FirstOrDefaultAsync(x => x.UserName == dto.UserName.ToLower());
 
 
-        if (user is null || Crypto.VerifyHashedPassword(dto.Password, user.PasswordHash))
+        if (user is null || !Crypto.VerifyHashedPassword(user.PasswordHash, dto.Password.Trim()))
         {
             return Result.Error("Incorect entered data");
         }

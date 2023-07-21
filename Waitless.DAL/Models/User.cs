@@ -10,7 +10,7 @@ public class User : BaseEntity
     public string PasswordHash { get; set; }
     public string Email { get; set; }
     public string Phone { get; set; }
-    public string ActivationToken { get; set; }
+    public string? ActivationToken { get; set; } = null;
     public bool IsActive { get; set; }
 
     public ICollection<UserSession> UserSessions { get; set; }

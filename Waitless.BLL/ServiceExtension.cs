@@ -14,7 +14,7 @@ using Waitless.BLL.Services.UserService;
 using Waitless.BLL.Services.ProvinceService;
 using Waitless.BLL.Services.CartService;
 using Waitless.BLL.Services.OrderService;
-using MailKit;
+using Waitless.BLL.Services.MailService;
 
 namespace Waitless.BLL;
 public static class ServiceExtension 

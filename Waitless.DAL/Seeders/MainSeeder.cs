@@ -16,5 +16,6 @@ internal static class MainSeeder
         UserSeeder.SeedData(modelBuilder);
         ProductTypeSeeder.SeedData(modelBuilder);
         AddressSeeder.SeedData(modelBuilder);
+        MailTemplateSeeder.SeedData(modelBuilder);
     }
 }

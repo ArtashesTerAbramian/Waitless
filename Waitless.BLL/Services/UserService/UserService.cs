@@ -8,6 +8,7 @@ using Waitless.DTO.UsersDtos;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
 using Waitless.BLL.Services.MailService;
+using Waitless.DAL.Enums;
 
 namespace Waitless.BLL.Services.UserService;
 
@@ -66,37 +67,13 @@ public class UserService: IUserService
     {
         string verificationLink = $"http://localhost:5254/api/user/verify/?token={activationToken}";
 
-        string subject = "BCode Registration Approval";
+        var mailTemplate = await _db.MailTemplates.FirstOrDefaultAsync(x => x.Id == (int)MailTemplateEnum.Verify);
 
-        string message = $@"
-                        <!DOCTYPE html>
-                        <html>
-                        <head>
-                            <title>BCodeNews - Email Verification</title>
-                        </head>
-                        <body style=""font-family: Arial, sans-serif; line-height: 1.6;"">
-                            <h2>Dear {user?.UserName},</h2>
-                            <p>
-                                Thank you for joining BCodeNews! To activate your account and access our services,
-                                please verify your email address by clicking the link below:
-                            </p>
-                            <p style=""background-color: #f2f2f2; padding: 10px;"">
-                                <a href=""{verificationLink}"" target=""_blank"" style=""color: #007BFF; text-decoration: none;"">
-                                    {verificationLink}
-                                </a>
-                            </p>
-                            <p>
-                                If you did not sign up for BCodeNews, please ignore this email.
-                            </p>
-                            <p>Best regards,</p>
-                            <p>BCodeNews team</p>
-                        </body>
-                        </html>
-                        ";
+        string message = mailTemplate.HtmlBody = mailTemplate.HtmlBody
+            .Replace("{FirstName}", user.UserName)
+            .Replace("{verificationLink}", verificationLink);
 
-
-
-        return await _mailService.SendEmailAsync(user.Email, subject, message);
+        return await _mailService.SendEmailAsync(user.Email, mailTemplate.Subject, message);
     }
 
     public async Task<PagedResult<List<UserDto>>> GetAllAsync(UserFilter filter)
