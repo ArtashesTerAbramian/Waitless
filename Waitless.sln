@@ -11,6 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Waitless.BLL", "Waitless.BL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waitless.DTO", "Waitless.DTO\Waitless.DTO.csproj", "{9248BDB6-0842-4368-9F9E-9C9B7F3D3C54}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{11EE6FDE-C783-429C-99B7-922C601FFFE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{A632AC5F-B335-4D4C-879B-09F54C1C46D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waitless.Mobile", "Waitless.Mobile\Waitless.Mobile.csproj", "{C802C96E-8B38-42DC-A42B-AA7DDA8582FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,11 +39,22 @@ Global
 		{9248BDB6-0842-4368-9F9E-9C9B7F3D3C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9248BDB6-0842-4368-9F9E-9C9B7F3D3C54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9248BDB6-0842-4368-9F9E-9C9B7F3D3C54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C802C96E-8B38-42DC-A42B-AA7DDA8582FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C802C96E-8B38-42DC-A42B-AA7DDA8582FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C802C96E-8B38-42DC-A42B-AA7DDA8582FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C802C96E-8B38-42DC-A42B-AA7DDA8582FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8AAD75C7-DA0C-4BB6-847E-CDC19AB70883}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2CD441CD-B428-4F6F-9F90-142050B1A8E4} = {11EE6FDE-C783-429C-99B7-922C601FFFE5}
+		{D61C4D0A-960C-4197-8956-3147E7DEC809} = {11EE6FDE-C783-429C-99B7-922C601FFFE5}
+		{056716B0-202D-4CC6-AB9F-8DD80C3A9A30} = {11EE6FDE-C783-429C-99B7-922C601FFFE5}
+		{9248BDB6-0842-4368-9F9E-9C9B7F3D3C54} = {11EE6FDE-C783-429C-99B7-922C601FFFE5}
+		{C802C96E-8B38-42DC-A42B-AA7DDA8582FB} = {A632AC5F-B335-4D4C-879B-09F54C1C46D5}
 	EndGlobalSection
 EndGlobal
