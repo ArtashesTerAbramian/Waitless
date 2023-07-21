@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
+using CryptoHelper;
 
 namespace Waitless.BLL.Services.UserService;
 
@@ -17,17 +18,14 @@ public class UserSessionService : IUserSessionService
 {
     private readonly AppDbContext _db;
     private readonly IHttpContextAccessor _httpContext;
-    private readonly PasswordHashHelper _passwordHashHelper;
     private readonly AuthOptions _options;
 
     public UserSessionService(AppDbContext db,
         IOptions<AuthOptions> options,
-        IHttpContextAccessor httpContext,
-        PasswordHashHelper passwordHashHelper)
+        IHttpContextAccessor httpContext)
     {
         _db = db;
         _httpContext = httpContext;
-        _passwordHashHelper = passwordHashHelper;
         _options = options.Value;
     }
     
@@ -37,7 +35,7 @@ public class UserSessionService : IUserSessionService
             .FirstOrDefaultAsync(x => x.UserName == dto.UserName.ToLower());
 
 
-        if (user is null || !_passwordHashHelper.VerifyPassword(dto.Password, user.PasswordHash))
+        if (user is null || Crypto.VerifyHashedPassword(dto.Password, user.PasswordHash))
         {
             return Result.Error("Incorect entered data");
         }

@@ -14,17 +14,18 @@ using Waitless.BLL.Services.UserService;
 using Waitless.BLL.Services.ProvinceService;
 using Waitless.BLL.Services.CartService;
 using Waitless.BLL.Services.OrderService;
+using MailKit;
 
 namespace Waitless.BLL;
 public static class ServiceExtension 
 {
     public static IServiceCollection AddWebServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<MailServiceOptions>(options => configuration.GetSection(nameof(MailServiceOptions)).Bind(options));
         services.Configure<FileSettings>(options => configuration.GetSection(nameof(FileSettings)).Bind(options));
         services.Configure<AuthOptions>(options => configuration.GetSection(nameof(AuthOptions)).Bind(options));
         services.AddSingleton<IContextModificatorService, WebContextModificatorService>();
         services.AddSingleton<FileHelper>();
-        services.AddSingleton<PasswordHashHelper>();
 
         services.AddScoped<LangagueMiddleware>();
         services.AddScoped<ILanguageService, LanguageService>();
@@ -38,6 +39,7 @@ public static class ServiceExtension
         services.AddScoped<IAddressService, AddressService>();
         services.AddScoped<ICartService, CartService>();
         services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IMailService, MailService>();
 
         return services;
     }

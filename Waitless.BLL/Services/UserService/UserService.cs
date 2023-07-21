@@ -1,25 +1,26 @@
 ﻿using Ardalis.Result;
 using Waitless.BLL.Filters;
-using Waitless.BLL.Helpers;
+using CryptoHelper;
 using Waitless.BLL.Mappers;
 using Waitless.DAL;
 using Waitless.DAL.Models;
 using Waitless.DTO.UsersDtos;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
+using Waitless.BLL.Services.MailService;
 
 namespace Waitless.BLL.Services.UserService;
 
 public class UserService: IUserService
 {
     private readonly AppDbContext _db;
-    private readonly PasswordHashHelper _passwordHashHelper;
+    private readonly IMailService _mailService;
 
     public UserService(AppDbContext db,
-        PasswordHashHelper passwordHashHelper)
+        IMailService mailService)
     {
         _db = db;
-        _passwordHashHelper = passwordHashHelper;
+        _mailService = mailService;
     }
     
     public async Task<Result> AddUserAsync(AddUserDto dto)
@@ -46,18 +47,58 @@ public class UserService: IUserService
             Email = dto.Email,
             UserName = dto.UserName.ToLower(),
             Phone = dto.Phone,
-            PasswordHash = _passwordHashHelper.HashPassword(dto.Password)
+            PasswordHash = Crypto.HashPassword(dto.Password),
+            ActivationToken = Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N"),
         };
 
         await _db.Users.AddAsync(user);
 
         await _db.SaveChangesAsync();
 
+        await SendRegisterEmail(user, user.ActivationToken);
+
         scope.Complete();
 
         return Result.Success();
     }
-    
+
+    private async Task<bool> SendRegisterEmail(User user, string activationToken)
+    {
+        string verificationLink = $"http://localhost:5254/api/user/verify/?token={activationToken}";
+
+        string subject = "BCode Registration Approval";
+
+        string message = $@"
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>BCodeNews - Email Verification</title>
+                        </head>
+                        <body style=""font-family: Arial, sans-serif; line-height: 1.6;"">
+                            <h2>Dear {user?.UserName},</h2>
+                            <p>
+                                Thank you for joining BCodeNews! To activate your account and access our services,
+                                please verify your email address by clicking the link below:
+                            </p>
+                            <p style=""background-color: #f2f2f2; padding: 10px;"">
+                                <a href=""{verificationLink}"" target=""_blank"" style=""color: #007BFF; text-decoration: none;"">
+                                    {verificationLink}
+                                </a>
+                            </p>
+                            <p>
+                                If you did not sign up for BCodeNews, please ignore this email.
+                            </p>
+                            <p>Best regards,</p>
+                            <p>BCodeNews team</p>
+                        </body>
+                        </html>
+                        ";
+
+
+
+        return await _mailService.SendEmailAsync(user.Email, subject, message);
+    }
+
     public async Task<PagedResult<List<UserDto>>> GetAllAsync(UserFilter filter)
     {
         var query = _db.Users;
@@ -65,18 +106,6 @@ public class UserService: IUserService
         var users = await filter.FilterObjects(query).ToListAsync();
 
         return new PagedResult<List<UserDto>>(await filter.GetPagedInfoAsync(query), users.MapToUsersDtos());
-    }
-
-    public async Task<Result<UserDto>> GetByIdAsync(long id)
-    {
-        var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
-
-        if (user is null)
-        {
-            return Result.NotFound();
-        }
-
-        return user.MapToUserDto();
     }
 
     public async Task<Result<UserDto>> GetUserByUsernameAsync(string username)
@@ -142,5 +171,37 @@ public class UserService: IUserService
         await _db.SaveChangesAsync();
 
         return Result.Success();
+    }
+
+    public async Task<Result<bool>> VerifyUserAsync(string token)
+    {
+        var user = await _db.Users
+             .FirstOrDefaultAsync(x => x.ActivationToken == token);
+
+        if (user is null)
+        {
+            return Result.NotFound();
+        }
+
+        user.IsActive = true;
+        user.ActivationToken = default;
+
+        await _db.SaveChangesAsync();
+
+        return true;
+    }
+
+    public async Task<Result<UserDto>> GetByTokenAsync(string token)
+    {
+        var user = await _db.Users
+              .Include(x => x.UserSessions)
+              .FirstOrDefaultAsync(u => u.UserSessions.Any(s => s.Token == token));
+
+        if (user is null)
+        {
+            return Result.NotFound();
+        }
+
+        return Result.Success(user.MapToUserDto());
     }
 }

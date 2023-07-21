@@ -28,5 +28,8 @@ public class UserConfiguration : BaseConfiguration<User>
         builder.HasMany(u => u.UserSessions)
             .WithOne(us => us.User)
             .HasForeignKey(us => us.UserId);
+
+        builder.Property(x => x.ActivationToken)
+            .HasMaxLength(120);
     }
 }

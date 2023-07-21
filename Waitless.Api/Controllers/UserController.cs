@@ -23,10 +23,10 @@ public class UserController : ApiControllerBase
         return await _userService.GetAllAsync(filter);
     }
 
-    [HttpGet("get-by-id")]
-    public async Task<Result<UserDto>> Get(long id)
+    [HttpGet("me")]
+    public async Task<Result<UserDto>> Get(string token)
     {
-        return await _userService.GetByIdAsync(id);
+        return await _userService.GetByTokenAsync(token);
     }
 
     [HttpGet("get-by-username")]
@@ -41,6 +41,13 @@ public class UserController : ApiControllerBase
     public async Task<Result> Add(AddUserDto dto)
     {
         return await _userService.AddUserAsync(dto);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("verify")]
+    public async Task<Result<bool>> Verify(string token)
+    {
+        return await _userService.VerifyUserAsync(token);
     }
 
     [HttpPost("update")]
