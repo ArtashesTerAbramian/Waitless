@@ -17,7 +17,7 @@ namespace Waitless.DAL.Seeders
 
             List<string> productTypeNamesArmenian = new List<string>
             {
-                "Սուրճ", "Թեյ", "Սմուզի", "Լիմոնադ", "Ջուս"
+                "Սուրճ", "Թեյ", "Սմուզի", "Լիմոնադ", "Հյութ"
             };
 
             int translationId = 0;

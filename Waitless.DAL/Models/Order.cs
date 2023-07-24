@@ -13,6 +13,7 @@ public class Order : BaseEntity
     }
 
     public long UserId { get; set; }
+    public long VendorId { get; set; }
     public long AddressId { get; set; }
     public string Instruction { get; set; }
     public OrderStateEnum OrderState { get; set; }
@@ -24,6 +25,7 @@ public class Order : BaseEntity
 
     public ICollection<OrderProduct> OrderProducts { get; set; }
 
+    Vendor Vendor { get; set; }
     User User { get; set; }
     Address Address { get; set; }
 
