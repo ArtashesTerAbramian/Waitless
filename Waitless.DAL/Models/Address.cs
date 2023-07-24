@@ -8,7 +8,9 @@ public class Address : BaseEntity
     }
     public long CityId { get; set; }
     public string? PostalCode { get; set; }
+    public long VendorId { get; set; }
 
+    public Vendor Vendor { get; set; }
     public City City { get; set; }
 
     public ICollection<AddressTranslation> Translations { get; set; }

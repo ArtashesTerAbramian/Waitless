@@ -15,6 +15,7 @@ using Waitless.BLL.Services.ProvinceService;
 using Waitless.BLL.Services.CartService;
 using Waitless.BLL.Services.OrderService;
 using Waitless.BLL.Services.MailService;
+using Waitless.BLL.Services.VendorService;
 
 namespace Waitless.BLL;
 public static class ServiceExtension 
@@ -41,6 +42,7 @@ public static class ServiceExtension
         services.AddScoped<ICartService, CartService>();
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IMailService, MailService>();
+        services.AddScoped<IVendorService, VendorService>();
 
         return services;
     }
