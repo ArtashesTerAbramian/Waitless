@@ -1,5 +1,6 @@
 ﻿using Ardalis.Result;
 using Waitless.BLL.Filters;
+using Waitless.DTO.UserDtos;
 using Waitless.DTO.UsersDtos;
 
 namespace Waitless.BLL.Services.UserService;
@@ -11,6 +12,8 @@ public interface IUserService
     Task<PagedResult<List<UserDto>>> GetAllAsync(UserFilter filter);
     Task<Result<UserDto>> GetByTokenAsync(string token);
     Task<Result<UserDto>> GetUserByUsernameAsync(string username);
+    Task<Result<bool>> ResetPassword(PasswordResetDto dto);
+    Task<Result<bool>> ResetPasswordRequest(string email);
     Task<Result> UpdateAsync(UpdateUserDto dto);
     Task<Result<bool>> VerifyUserAsync(string token);
 }

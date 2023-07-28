@@ -32,7 +32,8 @@ public class UserSessionService : IUserSessionService
     public async Task<Result<UserSessionDto>> Add(LoginDto dto)
     {
         var user = await _db.Users
-            .FirstOrDefaultAsync(x => x.UserName == dto.UserName.ToLower());
+            .FirstOrDefaultAsync(x => x.UserName == dto.UserName.ToLower() 
+                                   || x.Email == dto.UserName);
 
 
         if (user is null || !Crypto.VerifyHashedPassword(user.PasswordHash, dto.Password.Trim()))

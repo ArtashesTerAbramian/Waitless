@@ -9,18 +9,25 @@ using Microsoft.EntityFrameworkCore;
 using System.Transactions;
 using Waitless.BLL.Services.MailService;
 using Waitless.DAL.Enums;
+using Waitless.BLL.Models;
+using Waitless.BLL.Constants;
+using Waitless.DTO.UserDtos;
+using Microsoft.Extensions.Options;
 
 namespace Waitless.BLL.Services.UserService;
 
 public class UserService: IUserService
 {
     private readonly AppDbContext _db;
+    private readonly SiteUrlInfo _siteUrlInfo;
     private readonly IMailService _mailService;
 
     public UserService(AppDbContext db,
+        IOptions<SiteUrlInfo> siteUrlInfo,
         IMailService mailService)
     {
         _db = db;
+        _siteUrlInfo = siteUrlInfo.Value;
         _mailService = mailService;
     }
     
@@ -56,16 +63,16 @@ public class UserService: IUserService
 
         await _db.SaveChangesAsync();
 
-        await SendRegisterEmail(user, user.ActivationToken);
+        await SendRegisterEmailAsync(user, user.ActivationToken);
 
         scope.Complete();
 
         return Result.Success();
     }
 
-    private async Task<bool> SendRegisterEmail(User user, string activationToken)
+    private async Task<bool> SendRegisterEmailAsync(User user, string activationToken)
     {
-        string verificationLink = $"http://localhost:5254/api/user/verify/?token={activationToken}";
+        string verificationLink = $"{_siteUrlInfo.WebSiteUrl}user/verify/?token={activationToken}";
 
         var mailTemplate = await _db.MailTemplates.FirstOrDefaultAsync(x => x.Id == (int)MailTemplateEnum.Verify);
 
@@ -180,5 +187,64 @@ public class UserService: IUserService
         }
 
         return Result.Success(user.MapToUserDto());
+    }
+
+    public async Task<Result<bool>> ResetPassword(PasswordResetDto dto)
+    {
+        var passReset = await _db.UserPasswordResets
+            .FirstOrDefaultAsync(x => x.Token.Trim() == dto.Token.Trim());
+
+        TimeSpan elapsed = DateTime.UtcNow - passReset.CreatedDate;
+
+        if (passReset is null || elapsed.Hours >= 24)
+        {
+            return Result.NotFound();
+        }
+
+        var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == passReset.UserId);
+
+        user.PasswordHash = Crypto.HashPassword(dto.Password);
+
+        passReset.Expired = true;
+        passReset.Token = default;
+
+        await _db.SaveChangesAsync();
+
+
+        return Result.Success();
+    }
+
+    public async Task<Result<bool>> ResetPasswordRequest(string email)
+    {
+        var user = await _db.Users
+        .FirstOrDefaultAsync(x => x.Email.Trim() == email.Trim()
+                               && x.IsActive);
+
+        if (user is null)
+        {
+            return Result.NotFound();
+        }
+
+        var passReset = new UserPasswordReset()
+        {
+            UserId = user.Id,
+            Token = Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N"),
+            Expired = false
+        };
+
+        _db.UserPasswordResets.Add(passReset);
+        await _db.SaveChangesAsync();
+
+        string resetLink = $"{_siteUrlInfo.WebSiteUrl}account/reset/?token={passReset.Token}";
+
+        var mailTemplate = await _db.MailTemplates.FirstOrDefaultAsync(x => x.Id == (int)MailTemplateEnum.Reset);
+
+        var message = mailTemplate.HtmlBody
+            .Replace("{FirstName}", user.UserName)
+            .Replace("{resetLink}", resetLink);
+
+        await _mailService.SendEmailAsync(user.Email, mailTemplate.Subject, message);
+
+        return Result.Success();
     }
 }
