@@ -24,6 +24,7 @@ public static class ServiceExtension
         services.Configure<MailServiceOptions>(options => configuration.GetSection(nameof(MailServiceOptions)).Bind(options));
         services.Configure<FileSettings>(options => configuration.GetSection(nameof(FileSettings)).Bind(options));
         services.Configure<AuthOptions>(options => configuration.GetSection(nameof(AuthOptions)).Bind(options));
+        services.Configure<SiteUrlInfo>(options => configuration.GetSection(nameof(SiteUrlInfo)).Bind(options));
         services.AddSingleton<IContextModificatorService, WebContextModificatorService>();
         services.AddSingleton<FileHelper>();
 

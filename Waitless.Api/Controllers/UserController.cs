@@ -5,6 +5,7 @@ using Waitless.Dto;
 using Waitless.DTO.UsersDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Waitless.DTO.UserDtos;
 
 namespace Waitless.Api.Controllers;
 
@@ -17,11 +18,11 @@ public class UserController : ApiControllerBase
         _userService = userService;
     }
     
-    [HttpGet("get-all")]
+    /*[HttpGet("get-all")]
     public async Task<PagedResult<List<UserDto>>> GetAll([FromQuery] UserFilter filter)
     {
         return await _userService.GetAllAsync(filter);
-    }
+    }*/
 
     [HttpGet("me")]
     public async Task<Result<UserDto>> Get(string token)
@@ -61,5 +62,19 @@ public class UserController : ApiControllerBase
     public async Task<Result> Delete(BaseDto dto)
     {
         return await _userService.Delete(dto.Id);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("pass-reset-req")]
+    public async Task<Result<bool>> PasswordResetRequest(string email)
+    {
+        return await _userService.ResetPasswordRequest(email);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("reset-pass")]
+    public async Task<Result<bool>> ResetPassword([FromBody] PasswordResetDto dto)
+    {
+        return await _userService.ResetPassword(dto);
     }
 }

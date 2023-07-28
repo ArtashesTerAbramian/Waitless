@@ -38,6 +38,7 @@ public class AppDbContext : DbContext
     public DbSet<Cart> Carts { get; set; }
     public DbSet<CartProduct> CartProducts { get; set; }
     public DbSet<MailTemplate> MailTemplates { get; set; }
+    public DbSet<UserPasswordReset> UserPasswordResets { get; set; }
 
     public override int SaveChanges()
     {
