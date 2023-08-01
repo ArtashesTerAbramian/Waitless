@@ -1,5 +1,6 @@
 ﻿using Waitless.DTO.UsersDtos;
 using FluentValidation;
+using Waitless.BLL.Constants;
 
 namespace Waitless.BLL.Validators.UserValidators;
 
@@ -18,7 +19,7 @@ public class AddUserValidator : AbstractValidator<AddUserDto>
             .Cascade(CascadeMode.Stop)
             .NotEmpty()
                 .WithMessage("Email address is required.")
-            .EmailAddress()
+            .Matches(RegexConstants.Email)
                 .WithMessage("Invalid email address format.");
 
         RuleFor(user => user.UserName)
