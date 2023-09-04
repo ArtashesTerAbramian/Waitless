@@ -14,6 +14,7 @@ using Waitless.BLL.Validators.UserValidators;
 using SixLabors.ImageSharp.Web.DependencyInjection;
 using InnLine.BLL.Helpers;
 using SixLabors.ImageSharp.Web.Providers;
+using Waitless.Api;
 
 try
 {
@@ -56,6 +57,7 @@ try
     builder.Services.AddSwaggerGen();
 
     builder.Services.AddHttpContextAccessor();
+    builder.Services.AddSignalR();
 
     builder.Services.AddSwaggerGen(c =>
     {
@@ -127,6 +129,13 @@ try
     app.UseMiddleware<ErrorHandlingMiddleware>();
     app.UseLanguageMiddleware();
 
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapHub<NotificationHub>("/notificationHub");
+        // Map other endpoints as needed
+        // ...
+    });
+    
     app.UseAuthentication();
     app.UseAuthorization();
 
