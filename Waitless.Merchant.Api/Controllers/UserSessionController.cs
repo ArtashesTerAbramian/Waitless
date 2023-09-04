@@ -5,7 +5,7 @@ using Waitless.DTO.UsersDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Waitless.Admin.Api.Controllers;
+namespace Waitless.Merchant.Api.Controllers;
 
 public class UserSessionController : ApiControllerBase
 {

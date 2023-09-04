@@ -6,7 +6,7 @@ using Waitless.DTO.ProductDtos;
 using Waitless.Dto;
 using Waitless.DTO.CartDtos;
 
-namespace Waitless.Admin.Api.Controllers;
+namespace Waitless.Merchant.Api.Controllers;
 
 public class CartController : ApiControllerBase
 {

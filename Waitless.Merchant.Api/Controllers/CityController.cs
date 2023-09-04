@@ -5,7 +5,7 @@ using Waitless.DTO.CityDtos;
 using Waitless.DTO.ProvinceDtos;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Waitless.Admin.Api.Controllers;
+namespace Waitless.Merchant.Api.Controllers;
 
 public class CityController : ApiControllerBase
 {

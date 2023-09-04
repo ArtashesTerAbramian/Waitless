@@ -5,7 +5,7 @@ using Waitless.BLL.Services.VendorService;
 using Waitless.Dto;
 using Waitless.DTO.VendorDtos;
 
-namespace Waitless.Admin.Api.Controllers;
+namespace Waitless.Merchant.Api.Controllers;
 
 [Route("api/vendor")]
 public class VendorController : ApiControllerBase

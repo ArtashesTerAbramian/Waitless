@@ -4,7 +4,7 @@ using Waitless.BLL.Services.AddressService;
 using Waitless.DTO.AddressDtos;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Waitless.Admin.Api.Controllers;
+namespace Waitless.Merchant.Api.Controllers;
 
 public class AddressController : ApiControllerBase
 {

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Waitless.DTO.OrderDtos;
 using Waitless.BLL.Filters;
 
-namespace Waitless.Admin.Api.Controllers;
+namespace Waitless.Merchant.Api.Controllers;
 
 public class OrderController : ApiControllerBase
 {

@@ -5,7 +5,7 @@ using Waitless.Dto;
 using Waitless.DTO.ProductDtos;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Waitless.Admin.Api.Controllers;
+namespace Waitless.Merchant.Api.Controllers;
 
 public class ProductController : ApiControllerBase
 {
