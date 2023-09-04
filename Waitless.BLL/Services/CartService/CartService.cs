@@ -47,7 +47,6 @@ public class CartService : ICartService
 
             bool areEqual = Enumerable.SequenceEqual(cart.Products, userCart?.Products, comparer);
 
-
             if (areEqual)
             {
                 return Result.Success();

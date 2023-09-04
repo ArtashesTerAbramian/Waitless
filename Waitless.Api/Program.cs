@@ -129,6 +129,8 @@ try
     app.UseMiddleware<ErrorHandlingMiddleware>();
     app.UseLanguageMiddleware();
 
+    app.UseRouting();
+
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapHub<NotificationHub>("/notificationHub");
