@@ -10,6 +10,5 @@ public abstract class ApiControllerBase : ControllerBase
 {
     public ApiControllerBase()
     {
-
     }
 }

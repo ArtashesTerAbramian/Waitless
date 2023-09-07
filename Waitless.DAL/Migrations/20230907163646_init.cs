@@ -27,14 +27,33 @@ namespace Waitless.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "mail_template",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    html_body = table.Column<string>(type: "text", nullable: false),
+                    subject = table.Column<string>(type: "text", nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_mail_template", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "orders",
                 columns: table => new
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
+                    vendor_id = table.Column<long>(type: "bigint", nullable: false),
                     address_id = table.Column<long>(type: "bigint", nullable: false),
                     instruction = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    order_state = table.Column<int>(type: "integer", nullable: false),
                     timing_type = table.Column<int>(type: "integer", nullable: true),
                     be_ready_on = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     is_ready = table.Column<bool>(type: "boolean", nullable: false),
@@ -46,6 +65,22 @@ namespace Waitless.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_orders", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "permission_group",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_permission_group", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -95,6 +130,23 @@ namespace Waitless.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "role",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    article_permission_status_ids = table.Column<long[]>(type: "bigint[]", nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_role", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "users",
                 columns: table => new
                 {
@@ -104,6 +156,8 @@ namespace Waitless.DAL.Migrations
                     password_hash = table.Column<string>(type: "text", nullable: false),
                     email = table.Column<string>(type: "text", nullable: false),
                     phone = table.Column<string>(type: "text", nullable: false),
+                    activation_token = table.Column<string>(type: "character varying(120)", maxLength: 120, nullable: true),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false)
@@ -111,6 +165,30 @@ namespace Waitless.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_users", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "permission",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    value = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    permission_group_id = table.Column<long>(type: "bigint", nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_permission", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_permission_permission_groups_permission_group_id",
+                        column: x => x.permission_group_id,
+                        principalTable: "permission_group",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -145,6 +223,7 @@ namespace Waitless.DAL.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     product_type_id = table.Column<long>(type: "bigint", nullable: true),
                     product_size_id = table.Column<long>(type: "bigint", nullable: true),
+                    vendor_id = table.Column<long>(type: "bigint", nullable: false),
                     price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -238,6 +317,33 @@ namespace Waitless.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "merchant",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    phone = table.Column<string>(type: "text", nullable: false),
+                    email = table.Column<string>(type: "text", nullable: false),
+                    user_name = table.Column<string>(type: "text", nullable: false),
+                    password_hash = table.Column<string>(type: "text", nullable: false),
+                    role_id = table.Column<long>(type: "bigint", nullable: true),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_merchant", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_merchant_roles_role_id",
+                        column: x => x.role_id,
+                        principalTable: "role",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "cart",
                 columns: table => new
                 {
@@ -254,6 +360,30 @@ namespace Waitless.DAL.Migrations
                     table.PrimaryKey("pk_cart", x => x.id);
                     table.ForeignKey(
                         name: "fk_cart_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "user_password_reset",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    token = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    expired = table.Column<bool>(type: "boolean", nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_user_password_reset", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_user_password_reset_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
@@ -280,6 +410,64 @@ namespace Waitless.DAL.Migrations
                         name: "fk_user_session_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "permission_role",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    permission_id = table.Column<long>(type: "bigint", nullable: false),
+                    role_id = table.Column<long>(type: "bigint", nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_permission_role", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_permission_role_permission_permission_id",
+                        column: x => x.permission_id,
+                        principalTable: "permission",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "fk_permission_role_roles_role_id",
+                        column: x => x.role_id,
+                        principalTable: "role",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "order_product",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    product_id = table.Column<long>(type: "bigint", nullable: false),
+                    order_id = table.Column<long>(type: "bigint", nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_order_product", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_order_product_orders_order_id",
+                        column: x => x.order_id,
+                        principalTable: "orders",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "fk_order_product_product_product_id",
+                        column: x => x.product_id,
+                        principalTable: "product",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -339,6 +527,7 @@ namespace Waitless.DAL.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     city_id = table.Column<long>(type: "bigint", nullable: false),
                     postal_code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    vendor_id = table.Column<long>(type: "bigint", nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     is_deleted = table.Column<bool>(type: "boolean", nullable: false)
@@ -374,6 +563,35 @@ namespace Waitless.DAL.Migrations
                         name: "fk_city_translation_city_city_id",
                         column: x => x.city_id,
                         principalTable: "city",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "cart_product",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    product_id = table.Column<long>(type: "bigint", nullable: false),
+                    cart_id = table.Column<long>(type: "bigint", nullable: false),
+                    created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    modify_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_cart_product", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_cart_product_cart_cart_id",
+                        column: x => x.cart_id,
+                        principalTable: "cart",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "fk_cart_product_product_product_id",
+                        column: x => x.product_id,
+                        principalTable: "product",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -421,6 +639,15 @@ namespace Waitless.DAL.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "mail_template",
+                columns: new[] { "id", "created_date", "html_body", "is_deleted", "modify_date", "subject" },
+                values: new object[,]
+                {
+                    { 1L, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "\r\n                        <!DOCTYPE html>\r\n                        <html>\r\n                        <head>\r\n                            <title>Waitless - Email Verification</title>\r\n                        </head>\r\n                        <body style=\"font-family: Arial, sans-serif; line-height: 1.6;\">\r\n                            <h2>Dear {FirstName},</h2>\r\n                            <p>\r\n                                Thank you for joining Waitless! To activate your account and access our services,\r\n                                please verify your email address by clicking the link below:\r\n                            </p>\r\n                            <p style=\"background-color: #f2f2f2; padding: 10px;\">\r\n                                <a href=\"{verificationLink}\" target=\"_blank\" style=\"color: #007BFF; text-decoration: none;\">\r\n                                    {verificationLink}\r\n                                </a>\r\n                            </p>\r\n                            <p>\r\n                                If you did not sign up for Waitless, please ignore this email.\r\n                            </p>\r\n                            <p>Best regards,</p>\r\n                            <p>Waitless team</p>\r\n                        </body>\r\n                        </html>\r\n                        ", false, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Waitless Mail Verification" },
+                    { 2L, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "\r\n                        <!DOCTYPE html>\r\n                        <html>\r\n                        <head>\r\n                            <title>Waitless - Password Reset</title>\r\n                        </head>\r\n                        <body style=\"font-family: Arial, sans-serif; line-height: 1.6;\">\r\n                            <h2>Dear {FirstName},</h2>\r\n                            <p>\r\n                                We received a request to reset your password for your Waitless account. \r\n                                If you didn't initiate this request, you can ignore this email.\r\n                            </p>\r\n                            <p>\r\n                                To reset your password, click on the link below:\r\n                            </p>\r\n                            <p style=\"background-color: #f2f2f2; padding: 10px;\">\r\n                                <a href=\"{resetLink}\" target=\"_blank\" style=\"color: #007BFF; text-decoration: none;\">\r\n                                    Reset Password\r\n                                </a>\r\n                            </p>\r\n                            <p>\r\n                                If the above link doesn't work, you can copy and paste the following URL \r\n                                into your web browser's address bar:\r\n                            </p>\r\n                            <p>\r\n                                This password reset link will expire in 24 hour.\r\n                            </p>\r\n                            <p>\r\n                                If you didn't request a password reset, no action is required on your part.\r\n                            </p>\r\n                            <p>Best regards,</p>\r\n                            <p>Waitless team</p>\r\n                        </body>\r\n                        </html>\r\n                        ", false, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Waitless Reset Password" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "product_size",
                 columns: new[] { "id", "created_date", "is_deleted", "modify_date", "size_enum" },
                 values: new object[,]
@@ -462,8 +689,8 @@ namespace Waitless.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "users",
-                columns: new[] { "id", "created_date", "email", "is_deleted", "modify_date", "password_hash", "phone", "user_name" },
-                values: new object[] { 1L, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@mail.com", false, null, "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=", "32423", "admin" });
+                columns: new[] { "id", "activation_token", "created_date", "email", "is_active", "is_deleted", "modify_date", "password_hash", "phone", "user_name" },
+                values: new object[] { 1L, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@mail.com", false, false, null, "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=", "32423", "admin" });
 
             migrationBuilder.InsertData(
                 table: "city",
@@ -576,7 +803,7 @@ namespace Waitless.DAL.Migrations
                     { 12L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Լիմոնադ", 4L },
                     { 13L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 1, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Juice", 5L },
                     { 14L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 2, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Сок", 5L },
-                    { 15L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Ջուս", 5L }
+                    { 15L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Հյութ", 5L }
                 });
 
             migrationBuilder.InsertData(
@@ -618,6 +845,11 @@ namespace Waitless.DAL.Migrations
                     { 32L, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 2, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Сюникская область", 11L },
                     { 33L, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Սյունիքի մարզ", 11L }
                 });
+
+            migrationBuilder.InsertData(
+                table: "address",
+                columns: new[] { "id", "city_id", "created_date", "is_deleted", "modify_date", "postal_code", "vendor_id" },
+                values: new object[] { 1L, 1L, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "0002", 0L });
 
             migrationBuilder.InsertData(
                 table: "city_translation",
@@ -833,6 +1065,16 @@ namespace Waitless.DAL.Migrations
                     { 207L, 69L, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Քաղաքանիշ" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "address_translation",
+                columns: new[] { "id", "address_id", "created_date", "is_deleted", "language_id", "modify_date", "street" },
+                values: new object[,]
+                {
+                    { 1L, 1L, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 1, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "21 Mesrop Mashtots Ave" },
+                    { 2L, 1L, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 2, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "пр. Месропа Маштоца 21" },
+                    { 3L, 1L, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), false, 3, new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "21 Մեսրոպ Մաշտոց պողոտա" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "ix_address_city_id",
                 table: "address",
@@ -879,6 +1121,26 @@ namespace Waitless.DAL.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
+                name: "ix_cart_product_cart_id",
+                table: "cart_product",
+                column: "cart_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_cart_product_created_date",
+                table: "cart_product",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_cart_product_is_deleted",
+                table: "cart_product",
+                column: "is_deleted");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_cart_product_product_id_cart_id",
+                table: "cart_product",
+                columns: new[] { "product_id", "cart_id" });
+
+            migrationBuilder.CreateIndex(
                 name: "ix_city_created_date",
                 table: "city",
                 column: "created_date");
@@ -919,6 +1181,51 @@ namespace Waitless.DAL.Migrations
                 column: "is_deleted");
 
             migrationBuilder.CreateIndex(
+                name: "ix_mail_template_created_date",
+                table: "mail_template",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_mail_template_is_deleted",
+                table: "mail_template",
+                column: "is_deleted");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_merchant_created_date",
+                table: "merchant",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_merchant_is_deleted",
+                table: "merchant",
+                column: "is_deleted");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_merchant_role_id",
+                table: "merchant",
+                column: "role_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_order_product_created_date",
+                table: "order_product",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_order_product_is_deleted",
+                table: "order_product",
+                column: "is_deleted");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_order_product_order_id_product_id",
+                table: "order_product",
+                columns: new[] { "order_id", "product_id" });
+
+            migrationBuilder.CreateIndex(
+                name: "ix_order_product_product_id",
+                table: "order_product",
+                column: "product_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_orders_address_id_user_id",
                 table: "orders",
                 columns: new[] { "address_id", "user_id" });
@@ -932,6 +1239,38 @@ namespace Waitless.DAL.Migrations
                 name: "ix_orders_is_deleted",
                 table: "orders",
                 column: "is_deleted");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_permission_permission_group_id",
+                table: "permission",
+                column: "permission_group_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_permission_group_name",
+                table: "permission_group",
+                column: "name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_permission_role_created_date",
+                table: "permission_role",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_permission_role_is_deleted",
+                table: "permission_role",
+                column: "is_deleted");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_permission_role_permission_id",
+                table: "permission_role",
+                column: "permission_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_permission_role_role_id_permission_id",
+                table: "permission_role",
+                columns: new[] { "role_id", "permission_id" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "ix_product_created_date",
@@ -1059,6 +1398,37 @@ namespace Waitless.DAL.Migrations
                 column: "is_deleted");
 
             migrationBuilder.CreateIndex(
+                name: "ix_role_created_date",
+                table: "role",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_role_is_deleted",
+                table: "role",
+                column: "is_deleted");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_role_name",
+                table: "role",
+                column: "name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_user_password_reset_created_date",
+                table: "user_password_reset",
+                column: "created_date");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_user_password_reset_is_deleted",
+                table: "user_password_reset",
+                column: "is_deleted");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_user_password_reset_user_id",
+                table: "user_password_reset",
+                column: "user_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_user_session_created_date",
                 table: "user_session",
                 column: "created_date");
@@ -1102,7 +1472,7 @@ namespace Waitless.DAL.Migrations
                 name: "address_translation");
 
             migrationBuilder.DropTable(
-                name: "cart");
+                name: "cart_product");
 
             migrationBuilder.DropTable(
                 name: "city_translation");
@@ -1111,7 +1481,16 @@ namespace Waitless.DAL.Migrations
                 name: "error");
 
             migrationBuilder.DropTable(
-                name: "orders");
+                name: "mail_template");
+
+            migrationBuilder.DropTable(
+                name: "merchant");
+
+            migrationBuilder.DropTable(
+                name: "order_product");
+
+            migrationBuilder.DropTable(
+                name: "permission_role");
 
             migrationBuilder.DropTable(
                 name: "product_photo");
@@ -1129,19 +1508,37 @@ namespace Waitless.DAL.Migrations
                 name: "province_translation");
 
             migrationBuilder.DropTable(
+                name: "user_password_reset");
+
+            migrationBuilder.DropTable(
                 name: "user_session");
 
             migrationBuilder.DropTable(
                 name: "address");
 
             migrationBuilder.DropTable(
+                name: "cart");
+
+            migrationBuilder.DropTable(
+                name: "orders");
+
+            migrationBuilder.DropTable(
+                name: "permission");
+
+            migrationBuilder.DropTable(
+                name: "role");
+
+            migrationBuilder.DropTable(
                 name: "product");
+
+            migrationBuilder.DropTable(
+                name: "city");
 
             migrationBuilder.DropTable(
                 name: "users");
 
             migrationBuilder.DropTable(
-                name: "city");
+                name: "permission_group");
 
             migrationBuilder.DropTable(
                 name: "product_size");

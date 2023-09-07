@@ -17,9 +17,7 @@ using SixLabors.ImageSharp.Web.Providers;
 
 try
 {
-
     var builder = WebApplication.CreateBuilder(args);
-
 
     Log.Logger = new LoggerConfiguration()
         .ReadFrom.Configuration(builder.Configuration)
@@ -89,7 +87,7 @@ try
         options.DefaultAuthenticateScheme = "UserAuth";
         options.DefaultChallengeScheme = "UserAuth";
     })
-   .AddScheme<AuthenticationSchemeOptions, UserAuthenticationHandler>("UserAuth", null);
+   .AddScheme<AuthenticationSchemeOptions, UserAuthenticationHandler>("Auth", null);
 
     var app = builder.Build();
 
@@ -130,6 +128,9 @@ try
 
     app.UseRouting();
 
+    app.UseAuthentication();
+    app.UseAuthorization();
+
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapHub<NotificationHub>("/notificationHub");
@@ -137,9 +138,6 @@ try
         // ...
     });
     
-    app.UseAuthentication();
-    app.UseAuthorization();
-
     app.MapControllers();
 
     app.Run();

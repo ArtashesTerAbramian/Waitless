@@ -12,7 +12,7 @@ using Waitless.DAL;
 namespace Waitless.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230718114951_init")]
+    [Migration("20230907163646_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,6 +54,10 @@ namespace Waitless.DAL.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("postal_code");
 
+                    b.Property<long>("VendorId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("vendor_id");
+
                     b.HasKey("Id")
                         .HasName("pk_address");
 
@@ -67,6 +71,18 @@ namespace Waitless.DAL.Migrations
                         .HasDatabaseName("ix_address_is_deleted");
 
                     b.ToTable("address", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CityId = 1L,
+                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            ModifyDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            PostalCode = "0002",
+                            VendorId = 0L
+                        });
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.AddressTranslation", b =>
@@ -117,6 +133,38 @@ namespace Waitless.DAL.Migrations
                         .HasDatabaseName("ix_address_translation_is_deleted");
 
                     b.ToTable("address_translation", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            AddressId = 1L,
+                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 1,
+                            ModifyDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Street = "21 Mesrop Mashtots Ave"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            AddressId = 1L,
+                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 2,
+                            ModifyDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Street = "пр. Месропа Маштоца 21"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            AddressId = 1L,
+                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsDeleted = false,
+                            LanguageId = 3,
+                            ModifyDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Street = "21 Մեսրոպ Մաշտոց պողոտա"
+                        });
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.Cart", b =>
@@ -161,6 +209,53 @@ namespace Waitless.DAL.Migrations
                         .HasDatabaseName("ix_cart_user_id");
 
                     b.ToTable("cart", (string)null);
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.CartProduct", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CartId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("cart_id");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modify_date");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("product_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_cart_product");
+
+                    b.HasIndex("CartId")
+                        .HasDatabaseName("ix_cart_product_cart_id");
+
+                    b.HasIndex("CreatedDate")
+                        .HasDatabaseName("ix_cart_product_created_date");
+
+                    b.HasIndex("IsDeleted")
+                        .HasDatabaseName("ix_cart_product_is_deleted");
+
+                    b.HasIndex("ProductId", "CartId")
+                        .HasDatabaseName("ix_cart_product_product_id_cart_id");
+
+                    b.ToTable("cart_product", (string)null);
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.City", b =>
@@ -3009,6 +3104,134 @@ namespace Waitless.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Waitless.DAL.Models.MailTemplate", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<string>("HtmlBody")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("html_body");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modify_date");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("subject");
+
+                    b.HasKey("Id")
+                        .HasName("pk_mail_template");
+
+                    b.HasIndex("CreatedDate")
+                        .HasDatabaseName("ix_mail_template_created_date");
+
+                    b.HasIndex("IsDeleted")
+                        .HasDatabaseName("ix_mail_template_is_deleted");
+
+                    b.ToTable("mail_template", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HtmlBody = "\r\n                        <!DOCTYPE html>\r\n                        <html>\r\n                        <head>\r\n                            <title>Waitless - Email Verification</title>\r\n                        </head>\r\n                        <body style=\"font-family: Arial, sans-serif; line-height: 1.6;\">\r\n                            <h2>Dear {FirstName},</h2>\r\n                            <p>\r\n                                Thank you for joining Waitless! To activate your account and access our services,\r\n                                please verify your email address by clicking the link below:\r\n                            </p>\r\n                            <p style=\"background-color: #f2f2f2; padding: 10px;\">\r\n                                <a href=\"{verificationLink}\" target=\"_blank\" style=\"color: #007BFF; text-decoration: none;\">\r\n                                    {verificationLink}\r\n                                </a>\r\n                            </p>\r\n                            <p>\r\n                                If you did not sign up for Waitless, please ignore this email.\r\n                            </p>\r\n                            <p>Best regards,</p>\r\n                            <p>Waitless team</p>\r\n                        </body>\r\n                        </html>\r\n                        ",
+                            IsDeleted = false,
+                            ModifyDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Subject = "Waitless Mail Verification"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HtmlBody = "\r\n                        <!DOCTYPE html>\r\n                        <html>\r\n                        <head>\r\n                            <title>Waitless - Password Reset</title>\r\n                        </head>\r\n                        <body style=\"font-family: Arial, sans-serif; line-height: 1.6;\">\r\n                            <h2>Dear {FirstName},</h2>\r\n                            <p>\r\n                                We received a request to reset your password for your Waitless account. \r\n                                If you didn't initiate this request, you can ignore this email.\r\n                            </p>\r\n                            <p>\r\n                                To reset your password, click on the link below:\r\n                            </p>\r\n                            <p style=\"background-color: #f2f2f2; padding: 10px;\">\r\n                                <a href=\"{resetLink}\" target=\"_blank\" style=\"color: #007BFF; text-decoration: none;\">\r\n                                    Reset Password\r\n                                </a>\r\n                            </p>\r\n                            <p>\r\n                                If the above link doesn't work, you can copy and paste the following URL \r\n                                into your web browser's address bar:\r\n                            </p>\r\n                            <p>\r\n                                This password reset link will expire in 24 hour.\r\n                            </p>\r\n                            <p>\r\n                                If you didn't request a password reset, no action is required on your part.\r\n                            </p>\r\n                            <p>Best regards,</p>\r\n                            <p>Waitless team</p>\r\n                        </body>\r\n                        </html>\r\n                        ",
+                            IsDeleted = false,
+                            ModifyDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Subject = "Waitless Reset Password"
+                        });
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.Merchant", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("email");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modify_date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("password_hash");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("phone");
+
+                    b.Property<long?>("RoleId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("role_id");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("user_name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_merchant");
+
+                    b.HasIndex("CreatedDate")
+                        .HasDatabaseName("ix_merchant_created_date");
+
+                    b.HasIndex("IsDeleted")
+                        .HasDatabaseName("ix_merchant_is_deleted");
+
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("ix_merchant_role_id");
+
+                    b.ToTable("merchant", (string)null);
+                });
+
             modelBuilder.Entity("Waitless.DAL.Models.Order", b =>
                 {
                     b.Property<long>("Id")
@@ -3048,6 +3271,10 @@ namespace Waitless.DAL.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("modify_date");
 
+                    b.Property<int>("OrderState")
+                        .HasColumnType("integer")
+                        .HasColumnName("order_state");
+
                     b.Property<int?>("TimingType")
                         .HasColumnType("integer")
                         .HasColumnName("timing_type");
@@ -3059,6 +3286,10 @@ namespace Waitless.DAL.Migrations
                     b.Property<long>("UserId")
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
+
+                    b.Property<long>("VendorId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("vendor_id");
 
                     b.HasKey("Id")
                         .HasName("pk_orders");
@@ -3073,6 +3304,184 @@ namespace Waitless.DAL.Migrations
                         .HasDatabaseName("ix_orders_address_id_user_id");
 
                     b.ToTable("orders", (string)null);
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.OrderProduct", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modify_date");
+
+                    b.Property<long>("OrderId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("order_id");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("product_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_order_product");
+
+                    b.HasIndex("CreatedDate")
+                        .HasDatabaseName("ix_order_product_created_date");
+
+                    b.HasIndex("IsDeleted")
+                        .HasDatabaseName("ix_order_product_is_deleted");
+
+                    b.HasIndex("ProductId")
+                        .HasDatabaseName("ix_order_product_product_id");
+
+                    b.HasIndex("OrderId", "ProductId")
+                        .HasDatabaseName("ix_order_product_order_id_product_id");
+
+                    b.ToTable("order_product", (string)null);
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.Permission", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modify_date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("name");
+
+                    b.Property<long>("PermissionGroupId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("permission_group_id");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("value");
+
+                    b.HasKey("Id")
+                        .HasName("pk_permission");
+
+                    b.HasIndex("PermissionGroupId")
+                        .HasDatabaseName("ix_permission_permission_group_id");
+
+                    b.ToTable("permission", (string)null);
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.PermissionGroup", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modify_date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_permission_group");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_permission_group_name");
+
+                    b.ToTable("permission_group", (string)null);
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.PermissionRole", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modify_date");
+
+                    b.Property<long>("PermissionId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("permission_id");
+
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("role_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_permission_role");
+
+                    b.HasIndex("CreatedDate")
+                        .HasDatabaseName("ix_permission_role_created_date");
+
+                    b.HasIndex("IsDeleted")
+                        .HasDatabaseName("ix_permission_role_is_deleted");
+
+                    b.HasIndex("PermissionId")
+                        .HasDatabaseName("ix_permission_role_permission_id");
+
+                    b.HasIndex("RoleId", "PermissionId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_permission_role_role_id_permission_id");
+
+                    b.ToTable("permission_role", (string)null);
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.Product", b =>
@@ -3107,6 +3516,10 @@ namespace Waitless.DAL.Migrations
                     b.Property<long?>("ProductTypeId")
                         .HasColumnType("bigint")
                         .HasColumnName("product_type_id");
+
+                    b.Property<long>("VendorId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("vendor_id");
 
                     b.HasKey("Id")
                         .HasName("pk_product");
@@ -3697,7 +4110,7 @@ namespace Waitless.DAL.Migrations
                             IsDeleted = false,
                             LanguageId = 3,
                             ModifyDate = new DateTime(2023, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Ջուս",
+                            Name = "Հյութ",
                             ProductTypeId = 5L
                         });
                 });
@@ -4197,6 +4610,54 @@ namespace Waitless.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Waitless.DAL.Models.Role", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long[]>("ArticlePermissionStatusIds")
+                        .IsRequired()
+                        .HasColumnType("bigint[]")
+                        .HasColumnName("article_permission_status_ids");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modify_date");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_role");
+
+                    b.HasIndex("CreatedDate")
+                        .HasDatabaseName("ix_role_created_date");
+
+                    b.HasIndex("IsDeleted")
+                        .HasDatabaseName("ix_role_is_deleted");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_role_name");
+
+                    b.ToTable("role", (string)null);
+                });
+
             modelBuilder.Entity("Waitless.DAL.Models.User", b =>
                 {
                     b.Property<long>("Id")
@@ -4206,6 +4667,11 @@ namespace Waitless.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("ActivationToken")
+                        .HasMaxLength(120)
+                        .HasColumnType("character varying(120)")
+                        .HasColumnName("activation_token");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_date");
@@ -4214,6 +4680,10 @@ namespace Waitless.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("email");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean")
@@ -4263,11 +4733,62 @@ namespace Waitless.DAL.Migrations
                             Id = 1L,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@mail.com",
+                            IsActive = false,
                             IsDeleted = false,
                             PasswordHash = "jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=",
                             Phone = "32423",
                             UserName = "admin"
                         });
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.UserPasswordReset", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_date");
+
+                    b.Property<bool>("Expired")
+                        .HasColumnType("boolean")
+                        .HasColumnName("expired");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("modify_date");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnName("token");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_user_password_reset");
+
+                    b.HasIndex("CreatedDate")
+                        .HasDatabaseName("ix_user_password_reset_created_date");
+
+                    b.HasIndex("IsDeleted")
+                        .HasDatabaseName("ix_user_password_reset_is_deleted");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_user_password_reset_user_id");
+
+                    b.ToTable("user_password_reset", (string)null);
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.UserSession", b =>
@@ -4356,6 +4877,27 @@ namespace Waitless.DAL.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Waitless.DAL.Models.CartProduct", b =>
+                {
+                    b.HasOne("Waitless.DAL.Models.Cart", "Cart")
+                        .WithMany("Products")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_cart_product_cart_cart_id");
+
+                    b.HasOne("Waitless.DAL.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_cart_product_product_product_id");
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Waitless.DAL.Models.City", b =>
                 {
                     b.HasOne("Waitless.DAL.Models.Province", "Province")
@@ -4378,6 +4920,71 @@ namespace Waitless.DAL.Migrations
                         .HasConstraintName("fk_city_translation_city_city_id");
 
                     b.Navigation("City");
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.Merchant", b =>
+                {
+                    b.HasOne("Waitless.DAL.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_merchant_roles_role_id");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.OrderProduct", b =>
+                {
+                    b.HasOne("Waitless.DAL.Models.Order", "Order")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_order_product_orders_order_id");
+
+                    b.HasOne("Waitless.DAL.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_order_product_product_product_id");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.Permission", b =>
+                {
+                    b.HasOne("Waitless.DAL.Models.PermissionGroup", "PermissionGroup")
+                        .WithMany("Permissions")
+                        .HasForeignKey("PermissionGroupId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_permission_permission_groups_permission_group_id");
+
+                    b.Navigation("PermissionGroup");
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.PermissionRole", b =>
+                {
+                    b.HasOne("Waitless.DAL.Models.Permission", "Permission")
+                        .WithMany("PermissionRoles")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_permission_role_permission_permission_id");
+
+                    b.HasOne("Waitless.DAL.Models.Role", "Role")
+                        .WithMany("PermissionRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_permission_role_roles_role_id");
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.Product", b =>
@@ -4459,6 +5066,18 @@ namespace Waitless.DAL.Migrations
                     b.Navigation("Province");
                 });
 
+            modelBuilder.Entity("Waitless.DAL.Models.UserPasswordReset", b =>
+                {
+                    b.HasOne("Waitless.DAL.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_user_password_reset_users_user_id");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Waitless.DAL.Models.UserSession", b =>
                 {
                     b.HasOne("Waitless.DAL.Models.User", "User")
@@ -4476,9 +5095,29 @@ namespace Waitless.DAL.Migrations
                     b.Navigation("Translations");
                 });
 
+            modelBuilder.Entity("Waitless.DAL.Models.Cart", b =>
+                {
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("Waitless.DAL.Models.City", b =>
                 {
                     b.Navigation("Translations");
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.Order", b =>
+                {
+                    b.Navigation("OrderProducts");
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.Permission", b =>
+                {
+                    b.Navigation("PermissionRoles");
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.PermissionGroup", b =>
+                {
+                    b.Navigation("Permissions");
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.Product", b =>
@@ -4501,6 +5140,11 @@ namespace Waitless.DAL.Migrations
             modelBuilder.Entity("Waitless.DAL.Models.Province", b =>
                 {
                     b.Navigation("Translations");
+                });
+
+            modelBuilder.Entity("Waitless.DAL.Models.Role", b =>
+                {
+                    b.Navigation("PermissionRoles");
                 });
 
             modelBuilder.Entity("Waitless.DAL.Models.User", b =>

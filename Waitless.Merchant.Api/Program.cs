@@ -17,21 +17,20 @@ using SixLabors.ImageSharp.Web.Providers;
 
 try
 {
-
     var builder = WebApplication.CreateBuilder(args);
-
 
     Log.Logger = new LoggerConfiguration()
         .ReadFrom.Configuration(builder.Configuration)
         .Enrich.FromLogContext()
         .CreateLogger();
+
     builder.Host.UseSerilog(Log.Logger);
 
     builder.Environment.WebRootPath = builder.Configuration.GetSection("FileSettings").GetSection("FilePath").Value;
 
     builder.Services.AddImageSharp()
-      .RemoveProvider<PhysicalFileSystemProvider>()
-      .AddProvider<CustomPhysicalFileSystemProvider>();
+        .RemoveProvider<PhysicalFileSystemProvider>()
+        .AddProvider<CustomPhysicalFileSystemProvider>();
 
     builder.Services.AddCors();
     builder.Services.AddHttpClient();
@@ -39,7 +38,7 @@ try
     // Add services to the container.
     builder.Services.AddDbContext(builder.Configuration);
 
-    builder.Services.AddWebServices(builder.Configuration);
+    builder.Services.AddMerchantServices(builder.Configuration);
 
     builder.Services.AddCors();
     builder.Services.AddRouting(options => options.LowercaseUrls = true);
@@ -85,11 +84,11 @@ try
     });
 
     builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = "UserAuth";
-        options.DefaultChallengeScheme = "UserAuth";
-    })
-   .AddScheme<AuthenticationSchemeOptions, UserAuthenticationHandler>("UserAuth", null);
+        {
+            options.DefaultAuthenticateScheme = "MerchantAuth";
+            options.DefaultChallengeScheme = "MerchantAuth";
+        })
+        .AddScheme<AuthenticationSchemeOptions, MerchantAuthenticationHelper>("MerchantAuth", null);
 
     var app = builder.Build();
 
@@ -118,9 +117,11 @@ try
         OnPrepareResponse = ctx =>
         {
             ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
-            ctx.Context.Response.Headers.Append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type");
+            ctx.Context.Response.Headers.Append("Access-Control-Allow-Headers",
+                "Origin, X-Requested-With, Content-Type");
         },
-        FileProvider = new PhysicalFileProvider(builder.Configuration.GetSection("FileSettings").GetSection("FilePath").Value)
+        FileProvider =
+            new PhysicalFileProvider(builder.Configuration.GetSection("FileSettings").GetSection("FilePath").Value)
     });
 
     app.UseSerilogRequestLogging();
@@ -130,15 +131,15 @@ try
 
     app.UseRouting();
 
+
+    app.UseAuthentication();
+    app.UseAuthorization();
+
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapHub<NotificationHub>("/notificationHub");
-        // Map other endpoints as needed
-        // ...
     });
-    
-    app.UseAuthentication();
-    app.UseAuthorization();
+    app.UseMiddleware<MerchantAuthorizationMiddleware>();
 
     app.MapControllers();
 

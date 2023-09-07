@@ -19,7 +19,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Waitless.Artashes.Api": {
+    "Waitless.Merchant.Artashes.Api": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
