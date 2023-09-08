@@ -12,4 +12,7 @@ public static class ErrorConstants
     public const long CannotRemoveDataWithReference = 9;
     public const long EmailInUse = 10;
     public const long GeneralError = 11;
+    public const long UserAlreadyExistsPhone  = 12;
+    public static long AlreadyInProgress = 13;
+    public static long CantUpdateOrder = 14;
 }

@@ -41,23 +41,27 @@ public class ErrorHandlingMiddleware
         if (ex is DbUpdateException dbExceptin && dbExceptin.InnerException is Npgsql.PostgresException inEx && inEx.SqlState == "23505")
         {
             //23505 unique key violates exception
-             responseResult = Result.Error((await errorService.GetById(ErrorConstants.DuplicateItem)).Description);
+            var errorMessage = (await errorService.GetById(ErrorConstants.DuplicateItem)).Description;
+             responseResult = Result.Error(errorMessage);
             logger.LogError(ex, "ErrorHandlingMiddleware Db_Error");
         }
 
         else if (ex is DbUpdateException)
         {
-            responseResult = Result.Error((await errorService.GetById(ErrorConstants.CannotRemoveDataWithReference)).Description);
+            var errorMessage = (await errorService.GetById(ErrorConstants.CannotRemoveDataWithReference)).Description;
+            responseResult = Result.Error(errorMessage);
             logger.LogError(ex, "ErrorHandlingMiddleware Db_Error");
         }
         else if(ex is UnauthorizedAccessException)
         {
-            responseResult = Result.Error((await errorService.GetById(ErrorConstants.Unauthorized)).Description);
+            var errorMessage = (await errorService.GetById(ErrorConstants.Unauthorized)).Description;
+            responseResult = Result.Error(errorMessage);
             logger.LogError(ex, "ErrorHandlingMiddleware Auth_Error");
         }
         else
         {
-            responseResult = Result.Error((await errorService.GetById(ErrorConstants.GeneralError)).Description);
+            var errorMessage = (await errorService.GetById(ErrorConstants.GeneralError)).Description;
+            responseResult = Result.Error(errorMessage);
             logger.LogError(ex, "ErrorHandlingMiddleware");
         }
 

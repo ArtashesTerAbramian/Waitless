@@ -8,6 +8,8 @@ using Waitless.DTO.OrderDtos;
 using Microsoft.EntityFrameworkCore;
 using System.Transactions;
 using System.Reflection;
+using Waitless.BLL.Constants;
+using Waitless.BLL.Services.ErrorService;
 using Waitless.BLL.Services.ProductService;
 
 namespace Waitless.BLL.Services.OrderService;
@@ -16,12 +18,15 @@ public class OrderService : IOrderService
 {
     private readonly AppDbContext _db;
     private readonly IProductService _productService;
+    private readonly IErrorService _errorService;
 
     public OrderService(AppDbContext db,
-        IProductService productService)
+        IProductService productService,
+        IErrorService errorService)
     {
         _db = db;
         _productService = productService;
+        _errorService = errorService;
     }
 
     public async Task<Result> AddOrderAsync(AddOrderDto dto)
@@ -64,7 +69,8 @@ public class OrderService : IOrderService
 
         if (order.OrderState == OrderStateEnum.InProgress)
         {
-            return Result.Error("Your order already is in progress");
+            var errorMessage = (await _errorService.GetById(ErrorConstants.AlreadyInProgress)).Description;
+            return Result.Error(errorMessage);
         }
 
         order.OrderState = OrderStateEnum.Cancelled;
@@ -113,7 +119,8 @@ public class OrderService : IOrderService
         TimeSpan elapsedTime = DateTime.UtcNow - order.CreatedDate;
         if (elapsedTime > TimeSpan.FromMinutes(5))
         {
-            return Result.Error("Cant Update order after 5 minits from ordered time");
+            var errorMessage = (await _errorService.GetById(ErrorConstants.CantUpdateOrder)).Description;
+            return Result.Error(errorMessage);
         }
 
         order.AddressId = dto.AddressId;
@@ -144,7 +151,8 @@ public class OrderService : IOrderService
 
         if(order.OrderState == OrderStateEnum.InProgress)
         {
-            return Result.Error("Your order already is in progress");
+            var errorMessage = (await _errorService.GetById(ErrorConstants.AlreadyInProgress)).Description;
+            return Result.Error(errorMessage);
         }
 
         order.OrderProducts = dto.ProductIds.Select(x => new OrderProduct()

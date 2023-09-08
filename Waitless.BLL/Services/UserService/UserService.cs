@@ -13,41 +13,48 @@ using Waitless.BLL.Models;
 using Waitless.BLL.Constants;
 using Waitless.DTO.UserDtos;
 using Microsoft.Extensions.Options;
+using Waitless.BLL.Services.ErrorService;
 
 namespace Waitless.BLL.Services.UserService;
 
-public class UserService: IUserService
+public class UserService : IUserService
 {
     private readonly AppDbContext _db;
     private readonly SiteUrlInfo _siteUrlInfo;
     private readonly IMailService _mailService;
+    private readonly IErrorService _errorService;
 
     public UserService(AppDbContext db,
         IOptions<SiteUrlInfo> siteUrlInfo,
-        IMailService mailService)
+        IMailService mailService,
+        IErrorService errorService)
     {
         _db = db;
         _siteUrlInfo = siteUrlInfo.Value;
         _mailService = mailService;
+        _errorService = errorService;
     }
-    
+
     public async Task<Result> AddUserAsync(AddUserDto dto)
     {
         using TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
 
         if (_db.Users.Any(x => x.UserName == dto.UserName.ToLower()))
         {
-            return Result.Error("User with provided username already exists");
+            var errorMessage = _errorService.GetById(ErrorConstants.UserNameAlreadyTaken).Result.Description;
+            return Result.Error(errorMessage);
         }
-        
+
         if (_db.Users.Any(x => x.Email == dto.Email))
         {
-            return Result.Error("User with provided Email already exists");
+            var errorMessage = _errorService.GetById(ErrorConstants.EmailInUse).Result.Description;
+            return Result.Error(errorMessage);
         }
-        
+
         if (_db.Users.Any(x => x.Phone == dto.Phone))
         {
-            return Result.Error("User with provided phone number already exists");
+            var errorMessage = _errorService.GetById(ErrorConstants.UserAlreadyExistsPhone).Result.Description;
+            return Result.Error(errorMessage);
         }
 
         var user = new User()
@@ -96,7 +103,7 @@ public class UserService: IUserService
     {
         var user = await _db.Users.FirstOrDefaultAsync(x => x.UserName == username.ToLower());
 
-        if(user is null)
+        if (user is null)
         {
             return Result.NotFound();
         }
@@ -117,17 +124,20 @@ public class UserService: IUserService
 
         if (_db.Users.Any(x => x.UserName == dto.UserName.ToLower()))
         {
-            return Result.Error("User with provided username already exists");
+            var errorMessage = _errorService.GetById(ErrorConstants.UserNameAlreadyTaken).Result.Description;
+            return Result.Error(errorMessage);
         }
-        
+
         if (_db.Users.Any(x => x.Email == dto.Email))
         {
-            return Result.Error("User with provided Email already exists");
+            var errorMessage = _errorService.GetById(ErrorConstants.EmailInUse).Result.Description;
+            return Result.Error(errorMessage);
         }
-        
+
         if (_db.Users.Any(x => x.Phone == dto.Phone))
         {
-            return Result.Error("User with provided phone number already exists");
+            var errorMessage = _errorService.GetById(ErrorConstants.UserAlreadyExistsPhone).Result.Description;
+            return Result.Error(errorMessage);
         }
 
         user.Email = dto.Email;
@@ -145,7 +155,7 @@ public class UserService: IUserService
     {
         var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
 
-        if(user is null)
+        if (user is null)
         {
             return Result.NotFound();
         }
@@ -160,7 +170,7 @@ public class UserService: IUserService
     public async Task<Result<bool>> VerifyUserAsync(string token)
     {
         var user = await _db.Users
-             .FirstOrDefaultAsync(x => x.ActivationToken == token);
+            .FirstOrDefaultAsync(x => x.ActivationToken == token);
 
         if (user is null)
         {
@@ -178,8 +188,8 @@ public class UserService: IUserService
     public async Task<Result<UserDto>> GetByTokenAsync(string token)
     {
         var user = await _db.Users
-              .Include(x => x.UserSessions)
-              .FirstOrDefaultAsync(u => u.UserSessions.Any(s => s.Token == token));
+            .Include(x => x.UserSessions)
+            .FirstOrDefaultAsync(u => u.UserSessions.Any(s => s.Token == token));
 
         if (user is null)
         {
@@ -217,8 +227,8 @@ public class UserService: IUserService
     public async Task<Result<bool>> ResetPasswordRequest(string email)
     {
         var user = await _db.Users
-        .FirstOrDefaultAsync(x => x.Email.Trim() == email.Trim()
-                               && x.IsActive);
+            .FirstOrDefaultAsync(x => x.Email.Trim() == email.Trim()
+                                      && x.IsActive);
 
         if (user is null)
         {

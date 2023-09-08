@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Waitless.DAL;
@@ -11,9 +12,10 @@ using Waitless.DAL;
 namespace Waitless.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230908065303_merchant_config")]
+    partial class merchant_config
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3099,30 +3101,6 @@ namespace Waitless.DAL.Migrations
                             IsDeleted = false,
                             ModifyDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Name = "Total error."
-                        },
-                        new
-                        {
-                            Id = 12L,
-                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            ModifyDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "User with provided phone number already exists"
-                        },
-                        new
-                        {
-                            Id = 13L,
-                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            ModifyDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Your order already is in progress"
-                        },
-                        new
-                        {
-                            Id = 14L,
-                            CreatedDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            IsDeleted = false,
-                            ModifyDate = new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Cant Update order after 5 minutes from ordered time"
                         });
                 });
 

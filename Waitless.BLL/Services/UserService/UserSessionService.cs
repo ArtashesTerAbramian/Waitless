@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using CryptoHelper;
+using Waitless.BLL.Constants;
+using Waitless.BLL.Services.ErrorService;
 
 namespace Waitless.BLL.Services.UserService;
 
@@ -18,14 +20,17 @@ public class UserSessionService : IUserSessionService
 {
     private readonly AppDbContext _db;
     private readonly IHttpContextAccessor _httpContext;
+    private readonly IErrorService _errorService;
     private readonly AuthOptions _options;
 
     public UserSessionService(AppDbContext db,
         IOptions<AuthOptions> options,
-        IHttpContextAccessor httpContext)
+        IHttpContextAccessor httpContext,
+        IErrorService errorService)
     {
         _db = db;
         _httpContext = httpContext;
+        _errorService = errorService;
         _options = options.Value;
     }
     
@@ -38,7 +43,8 @@ public class UserSessionService : IUserSessionService
 
         if (user is null || !Crypto.VerifyHashedPassword(user.PasswordHash, dto.Password.Trim()))
         {
-            return Result.Error("Incorect entered data");
+            var errorMessage = _errorService.GetById(ErrorConstants.IncorrectEnteredData).Result.Description;
+            return Result.Error(errorMessage);
         }
         
         var token = Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N");

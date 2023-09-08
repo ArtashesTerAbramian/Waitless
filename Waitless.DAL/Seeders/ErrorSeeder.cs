@@ -105,6 +105,33 @@ namespace Waitless.DAL.Seeders
                 IsDeleted = false,
                 Name = "Total error."
             });
+
+            modelBuilder.Entity<Error>().HasData(new Error
+            {
+                Id = 12,
+                CreatedDate = new(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                ModifyDate = new(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                IsDeleted = false,
+                Name = "User with provided phone number already exists"
+            });
+
+            modelBuilder.Entity<Error>().HasData(new Error
+            {
+                Id = 13,
+                CreatedDate = new(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                ModifyDate = new(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                IsDeleted = false,
+                Name = "Your order already is in progress"
+            });
+
+            modelBuilder.Entity<Error>().HasData(new Error
+            {
+                Id = 14,
+                CreatedDate = new(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                ModifyDate = new(2022, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                IsDeleted = false,
+                Name = "Cant Update order after 5 minutes from ordered time"
+            });
         }
     }
 }
