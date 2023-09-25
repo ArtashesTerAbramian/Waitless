@@ -5,7 +5,7 @@ using Waitless.Dto;
 using Waitless.DTO.UsersDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Waitless.DTO.UserDtos;
+using Waitless.DTO;
 
 namespace Waitless.Api.Controllers;
 

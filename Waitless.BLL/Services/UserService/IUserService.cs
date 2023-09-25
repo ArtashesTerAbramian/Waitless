@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using Waitless.BLL.Filters;
-using Waitless.DTO.UserDtos;
+using Waitless.DTO;
 using Waitless.DTO.UsersDtos;
 
 namespace Waitless.BLL.Services.UserService;

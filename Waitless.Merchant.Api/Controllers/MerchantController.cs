@@ -1,21 +1,20 @@
 ﻿using Ardalis.Result;
-using Waitless.BLL.Filters;
-using Waitless.BLL.Services.UserService;
 using Waitless.Dto;
-using Waitless.DTO.UsersDtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Waitless.DTO.UserDtos;
+using Waitless.BLL.Services.MerchantService;
+using Waitless.DTO.MerchantDtos;
+using Waitless.DTO;
 
 namespace Waitless.Merchant.Api.Controllers;
 
-public class UserController : ApiControllerBase
+public class MerchantController : ApiControllerBase
 {
-    private readonly IUserService _userService;
+    private readonly IMerchantService _merchantService;
 
-    public UserController(IUserService userService)
+    public MerchantController(IMerchantService merchantService)
     {
-        _userService = userService;
+        _merchantService = merchantService;
     }
     
     /*[HttpGet("get-all")]
@@ -25,56 +24,56 @@ public class UserController : ApiControllerBase
     }*/
 
     [HttpGet("me")]
-    public async Task<Result<UserDto>> Get(string token)
+    public async Task<Result<MerchantDto>> Get(string token)
     {
-        return await _userService.GetByTokenAsync(token);
+        return await _merchantService.GetByTokenAsync(token);
     }
 
     [HttpGet("get-by-username")]
-    public async Task<Result<UserDto>> GetByUsernameAsync(string username)
+    public async Task<Result<MerchantDto>> GetByUsernameAsync(string username)
     {
-        return await _userService.GetUserByUsernameAsync(username);
+        return await _merchantService.GetMerchantByUsernameAsync(username);
     }
 
     [AllowAnonymous]
     [HttpPost("add")]
     [DisableRequestSizeLimit]
-    public async Task<Result> Add(AddUserDto dto)
+    public async Task<Result> Add(AddMerchantDto dto)
     {
-        return await _userService.AddUserAsync(dto);
+        return await _merchantService.AddMerchantAsync(dto);
     }
 
     [AllowAnonymous]
     [HttpPost("verify")]
     public async Task<Result<bool>> Verify(string token)
     {
-        return await _userService.VerifyUserAsync(token);
+        return await _merchantService.VerifyMerchantAsync(token);
     }
 
     [HttpPost("update")]
     [DisableRequestSizeLimit]
-    public async Task<Result> Update(UpdateUserDto dto)
+    public async Task<Result> Update(UpdateMerchantDto dto)
     {
-        return await _userService.UpdateAsync(dto);
+        return await _merchantService.UpdateAsync(dto);
     }
 
     [HttpPost("delete")]
     public async Task<Result> Delete(BaseDto dto)
     {
-        return await _userService.Delete(dto.Id);
+        return await _merchantService.Delete(dto.Id);
     }
 
     [AllowAnonymous]
     [HttpGet("pass-reset-req")]
     public async Task<Result<bool>> PasswordResetRequest(string email)
     {
-        return await _userService.ResetPasswordRequest(email);
+        return await _merchantService.ResetPasswordRequest(email);
     }
 
     [AllowAnonymous]
     [HttpPost("reset-pass")]
     public async Task<Result<bool>> ResetPassword([FromBody] PasswordResetDto dto)
     {
-        return await _userService.ResetPassword(dto);
+        return await _merchantService.ResetPassword(dto);
     }
 }

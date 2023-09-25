@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Waitless.Merchant.Api.Controllers;
 
-public class UserSessionController : ApiControllerBase
+public class MerchantSessionController : ApiControllerBase
 {
     private readonly IUserSessionService _userSessionService;
 
-    public UserSessionController(IUserSessionService userSessionService)
+    public MerchantSessionController(IUserSessionService userSessionService)
     {
         _userSessionService = userSessionService;
     }

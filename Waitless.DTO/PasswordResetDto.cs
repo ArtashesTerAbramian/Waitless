@@ -1,4 +1,4 @@
-﻿namespace Waitless.DTO.UserDtos;
+﻿namespace Waitless.DTO;
 
 public class PasswordResetDto
 {

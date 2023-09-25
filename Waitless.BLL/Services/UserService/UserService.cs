@@ -11,7 +11,7 @@ using Waitless.BLL.Services.MailService;
 using Waitless.DAL.Enums;
 using Waitless.BLL.Models;
 using Waitless.BLL.Constants;
-using Waitless.DTO.UserDtos;
+using Waitless.DTO;
 using Microsoft.Extensions.Options;
 using Waitless.BLL.Services.ErrorService;
 
@@ -219,7 +219,6 @@ public class UserService : IUserService
         passReset.Token = default;
 
         await _db.SaveChangesAsync();
-
 
         return Result.Success();
     }

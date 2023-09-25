@@ -42,6 +42,8 @@ public class AppDbContext : DbContext
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<UserNotification> UserNotifications { get; set; }
     public DbSet<Merchant> Merchants { get; set; }
+    public DbSet<MerchantSession> MerchantSessions { get; set; }
+    public DbSet<MerchantPasswordReset> MerchantPasswordResets { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<Permission> Permissions { get; set; }
     public DbSet<PermissionRole> PermissionRoles { get; set; }
